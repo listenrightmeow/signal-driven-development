@@ -1,0 +1,373 @@
+{
+  "passes": [
+    {
+      "number": 1,
+      "gaps": [
+        {
+          "id": "SG-01",
+          "category": "SG",
+          "severity": "error",
+          "title": "Appointment aggregate has zero invariants",
+          "rule": "Aggregates must protect at least one invariant — an aggregate without invariants has no consistency boundary to enforce.",
+          "element": "Appointment aggregate in Scheduling context",
+          "analysis": "Appointment defines four commands and four events but no invariants. What prevents double-booking the same time slot? What prevents checking in a cancelled appointment? Without invariants, the Appointment aggregate is a data container, not a consistency boundary.",
+          "recommendation": "Define invariants. At minimum: (1) No two appointments for the same veterinarian may overlap in time. (2) Appointment status must follow a valid lifecycle. (3) Rescheduled time must be in the future.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add three invariants: INV-AP-01 (no overlapping appointments), INV-AP-02 (status lifecycle: booked → {checked-in, cancelled}; checked-in → visited), INV-AP-03 (rescheduled time must be in the future).",
+            "structuralImpact": "+3 invariants on Appointment aggregate."
+          }
+        },
+        {
+          "id": "SG-02",
+          "category": "SG",
+          "severity": "error",
+          "title": "Visit aggregate has zero invariants",
+          "rule": "Aggregates must protect at least one invariant.",
+          "element": "Visit aggregate in Clinical Care context",
+          "analysis": "Visit has two commands (OpenVisit, CloseVisit) and no invariants. What prevents closing a visit that was never opened? What prevents opening multiple visits for the same appointment? A visit without invariants is a pair of timestamps, not a domain concept.",
+          "recommendation": "Define invariants. At minimum: (1) A visit can only be opened for an appointment in checked-in status. (2) Only one active visit per appointment. (3) A visit cannot be closed with zero treatments recorded.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add three invariants: INV-VS-01 (visit only for checked-in appointment), INV-VS-02 (one active visit per appointment), INV-VS-03 (visit cannot close with zero clinical episodes).",
+            "structuralImpact": "+3 invariants on Visit aggregate."
+          }
+        },
+        {
+          "id": "SG-03",
+          "category": "SG",
+          "severity": "error",
+          "title": "Treatment aggregate command sequence not enforced",
+          "rule": "Command preconditions must enforce the aggregate's expected lifecycle.",
+          "element": "Treatment aggregate in Clinical Care context",
+          "analysis": "INV-TR-02 says medication can only be administered after diagnosis, but there's no explicit state machine. Can CompleteTreatment be called before RecordDiagnosis? The invariants describe constraints but the lifecycle transitions are implicit.",
+          "recommendation": "Define an explicit state machine: started → diagnosed → treating → completed. Each command is valid only in specific states.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Accept recommendation with modification — rename Treatment to ClinicalEpisode first (combined with LG-02). State machine: initiated → diagnosed → treating → completed. Each command valid only in specific states.",
+            "structuralImpact": "Aggregate renamed to ClinicalEpisode. +1 value object (EpisodeStatus enum). State machine documented.",
+            "hasModification": true
+          }
+        },
+        {
+          "id": "SG-04",
+          "category": "SG",
+          "severity": "warning",
+          "title": "Billing context has no declared relationship to Clinical Care",
+          "rule": "All cross-context dependencies must be explicitly declared with relationship type.",
+          "element": "Billing bounded context",
+          "analysis": "The GenerateInvoiceOnVisitClosed policy in Billing triggers on VisitClosed (a Clinical Care event). But the relationship type isn't specified. Is this Customer-Supplier? Conformist? The relationship type determines who controls the contract.",
+          "recommendation": "Declare as Customer-Supplier (Clinical Care is upstream supplier, Billing is downstream customer).",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Declare Customer-Supplier. Clinical Care is upstream supplier, Billing is downstream customer. Clinical Care owns event schemas; Billing conforms.",
+            "structuralImpact": "+1 explicit context relationship."
+          }
+        },
+        {
+          "id": "SG-05",
+          "category": "SG",
+          "severity": "warning",
+          "title": "No event for emergency/walk-in visits",
+          "rule": "Domain specification must cover all entry paths described in requirements.",
+          "element": "Scheduling and Clinical Care contexts",
+          "analysis": "The requirements mention 'scheduled or emergency visits.' The specification only models the scheduled path. There's no path for an animal arriving without an appointment.",
+          "recommendation": "Either add an AcceptWalkIn command that creates both an appointment and triggers check-in, or allow OpenVisit without a preceding appointment.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Accept option A with modification. Add AcceptWalkIn command that creates appointment with type walk-in and immediately emits both AppointmentBooked and PatientCheckedIn. Preserves the Scheduling → Clinical Care contract.",
+            "structuralImpact": "+1 command on Appointment, +1 visitType value (walk-in).",
+            "hasModification": true
+          }
+        },
+        {
+          "id": "SG-06",
+          "category": "SG",
+          "severity": "warning",
+          "title": "PatientHistoryView crosses context boundary",
+          "rule": "Projections should consume events from their own context or from explicitly declared upstream contexts.",
+          "element": "PatientHistoryView projection in Patient Records context",
+          "analysis": "This projection consumes DiagnosisRecorded, TreatmentCompleted, and MedicationAdministered — all Clinical Care events. But Patient Records doesn't declare Clinical Care as an upstream dependency.",
+          "recommendation": "Either move PatientHistoryView to Clinical Care, or declare a relationship from Patient Records to Clinical Care.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Move PatientHistoryView from Patient Records to Clinical Care. Rename to ClinicalHistoryView for clarity.",
+            "structuralImpact": "-1 projection in Patient Records, +1 projection in Clinical Care (ClinicalHistoryView)."
+          }
+        },
+        {
+          "id": "SG-07",
+          "category": "SG",
+          "severity": "warning",
+          "title": "NotifyOwnerOnAppointmentBooked is infrastructure, not a domain policy",
+          "rule": "Policies model domain reactions. Infrastructure concerns are not domain policies.",
+          "element": "NotifyOwnerOnAppointmentBooked policy in Scheduling context",
+          "analysis": "Sending a notification isn't a domain behavior — it's an infrastructure side effect. Modeling it as a policy inflates the domain model with non-domain concerns.",
+          "recommendation": "Remove from domain specification. Handle as an infrastructure listener on AppointmentBooked.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Remove from domain specification. Handle as infrastructure listener on AppointmentBooked. Not a domain policy.",
+            "structuralImpact": "-1 policy in Scheduling."
+          }
+        },
+        {
+          "id": "HG-01",
+          "category": "HG",
+          "severity": "warning",
+          "title": "Treatment aggregate is a pipeline, not independent commands",
+          "rule": "Aggregate command density ≤ 6 (Vernon)",
+          "element": "Treatment aggregate in Clinical Care context",
+          "analysis": "Although the count is within threshold (4 commands), the commands have strict sequential dependencies. This is a pipeline, not independent commands. Sequential command chains suggest a saga or process manager.",
+          "recommendation": "Evaluate whether Treatment should be a saga coordinating smaller aggregates rather than a single aggregate with a pipeline.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "The ClinicalEpisode state machine (SG-03 resolution) adequately enforces the sequence within a single aggregate. The cross-aggregate lifecycle is the saga candidate (see HG-04).",
+            "structuralImpact": "None beyond SG-03 resolution."
+          }
+        },
+        {
+          "id": "HG-02",
+          "category": "HG",
+          "severity": "warning",
+          "title": "AnimalProfile and Owner — potential over-separation",
+          "rule": "Aggregates in the same context that always change together should be a single aggregate.",
+          "element": "Patient Records context",
+          "analysis": "RegisterAnimal requires an ownerId. Is there a scenario where an animal profile changes independently of the owner? If they always change together, they may be a single aggregate.",
+          "recommendation": "Keep separated if they have independent lifecycles. If they're always modified together, consider merging.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Keep separated. Owner lifecycle is independent — owners change contact information, add/remove animals, exist before any animal is registered. Separation is correct.",
+            "structuralImpact": "No change. Documented as intentional."
+          }
+        },
+        {
+          "id": "HG-03",
+          "category": "HG",
+          "severity": "warning",
+          "title": "Context term overlap — 'Patient' used across contexts",
+          "rule": "Context term overlap ≤ 3 shared terms (Evans).",
+          "element": "Scheduling, Patient Records, and Clinical Care contexts",
+          "analysis": "'Patient' appears with slightly different meanings in three contexts. In Patient Records: the animal's identity. In Clinical Care: the animal being treated now. In Scheduling: the animal with an appointment.",
+          "recommendation": "Define 'patient' explicitly in each context's glossary.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add explicit definitions per context. No renaming needed — glossary definitions make the semantic boundaries explicit.",
+            "structuralImpact": "+3 glossary entries."
+          }
+        },
+        {
+          "id": "HG-04",
+          "category": "HG",
+          "severity": "warning",
+          "title": "Zero sagas in a domain with multi-step processes",
+          "rule": "Domains with cross-aggregate, multi-step processes typically require at least one saga.",
+          "element": "Cross-context visit lifecycle",
+          "analysis": "The full visit lifecycle spans multiple aggregates across multiple contexts: Appointment → Visit → Treatment(s) → Invoice. This is a multi-step process with potential failure points. Policies handle the happy path but there's no compensation.",
+          "recommendation": "Evaluate the visit lifecycle as a saga candidate with compensation for each step.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Introduce VisitLifecycleSaga in Clinical Care. Trigger: PatientCheckedIn. Steps: open visit → await episodes → close visit → emit VisitClosed. Compensation: abandoned state if patient leaves without treatment.",
+            "structuralImpact": "+1 saga (VisitLifecycleSaga), +1 event (VisitAbandoned), +1 saga state."
+          }
+        },
+        {
+          "id": "HG-05",
+          "category": "HG",
+          "severity": "warning",
+          "title": "Invoice aggregate — no payment lifecycle",
+          "rule": "Aggregate must model all stated business behaviors.",
+          "element": "Invoice aggregate in Billing context",
+          "analysis": "RecordPayment mentions 'full or partial payment' but there's no payment state model. No lifecycle invariants beyond total = sum of line items.",
+          "recommendation": "Define Invoice states and transitions. Add invariant: payment cannot exceed remaining balance.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Define invoice states: generated → partially-paid → paid → disputed → refunded. Add INV-IN-02: payment cannot exceed remaining balance. Add DisputeInvoice and RefundInvoice commands.",
+            "structuralImpact": "+1 value object (InvoiceStatus), +2 commands, +2 events, +1 invariant."
+          }
+        },
+        {
+          "id": "LG-01",
+          "category": "LG",
+          "severity": "warning",
+          "title": "'Visit' vs. 'Appointment' — semantic overlap",
+          "rule": "Ubiquitous language terms must have unambiguous definitions.",
+          "element": "Scheduling and Clinical Care contexts",
+          "analysis": "An appointment is a scheduled time. A visit is a clinical encounter. But the transition point — where 'appointment' ends and 'visit' begins — isn't clearly defined.",
+          "recommendation": "Define explicitly: 'An appointment is a time commitment. A visit is a clinical encounter. The boundary is check-in.'",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add glossary definitions. An appointment is a time commitment. A visit is a clinical encounter. A visit does not require an appointment (walk-ins). The boundary is check-in.",
+            "structuralImpact": "+2 glossary entries (updated definitions)."
+          }
+        },
+        {
+          "id": "LG-02",
+          "category": "LG",
+          "severity": "warning",
+          "title": "'Treatment' is overloaded",
+          "rule": "Ubiquitous language terms must have unambiguous definitions.",
+          "element": "Clinical Care context",
+          "analysis": "'Treatment' in the aggregate means the full clinical encounter, but in common language it means a single intervention. The aggregate is actually a 'clinical episode' containing multiple treatments.",
+          "recommendation": "Rename the aggregate to ClinicalEpisode. Reserve 'treatment' for individual interventions.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Rename Treatment aggregate to ClinicalEpisode. Reserve 'treatment' for individual interventions. Combined with SG-03 resolution.",
+            "structuralImpact": "Aggregate renamed (counted in SG-03)."
+          }
+        },
+        {
+          "id": "DG-01",
+          "category": "DG",
+          "severity": "error",
+          "title": "Who owns the veterinarian schedule?",
+          "rule": "All domain concepts referenced in the specification must be owned by a bounded context.",
+          "element": "Scheduling context, ScheduleAvailabilityService",
+          "analysis": "ScheduleAvailabilityService checks veterinarian availability, but there's no Veterinarian aggregate or schedule model. Where does veterinarian identity live? This is a missing aggregate.",
+          "recommendation": "Add a Veterinarian aggregate to Scheduling with schedule management commands, or introduce a Staff Management bounded context.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add Veterinarian aggregate to Scheduling context. Commands: SetAvailability, BlockTimeSlot. Invariant: veterinarian must have availability defined before appointments can be booked.",
+            "structuralImpact": "+1 aggregate, +2 commands, +2 events, +1 invariant in Scheduling."
+          }
+        },
+        {
+          "id": "DG-02",
+          "category": "DG",
+          "severity": "error",
+          "title": "How does pricing work?",
+          "rule": "All domain concepts referenced in the specification must be owned by a bounded context.",
+          "element": "Billing context, PricingService",
+          "analysis": "PricingService 'calculates line item prices' but there's no pricing model, no price list aggregate, no pricing configuration. Where do prices come from?",
+          "recommendation": "Define a PriceList aggregate in Billing with pricing rules.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add PriceList aggregate to Billing. Static pricing for V1: treatment code → price. Commands: SetPrice, DeactivatePrice. Dynamic pricing deferred to V2.",
+            "structuralImpact": "+1 aggregate, +2 commands, +2 events, +1 invariant in Billing."
+          }
+        },
+        {
+          "id": "DG-03",
+          "category": "DG",
+          "severity": "warning",
+          "title": "Medical history — who is the source of truth?",
+          "rule": "Data ownership must be explicit across context boundaries.",
+          "element": "Patient Records and Clinical Care contexts",
+          "analysis": "Both contexts need medical history. Who owns the canonical record? Patient Records (long-term) or Clinical Care (active view)?",
+          "recommendation": "Patient Records owns the historical record. Clinical Care reads a snapshot at visit start and writes back at visit close.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Patient Records owns the persistent record. Clinical Care reads snapshot at visit start via ClinicalHistoryView. Relationship: Partnership (bidirectional data flow).",
+            "structuralImpact": "+1 context relationship (Partnership between Patient Records and Clinical Care)."
+          }
+        },
+        {
+          "id": "DG-04",
+          "category": "DG",
+          "severity": "warning",
+          "title": "What happens when an owner has multiple animals?",
+          "rule": "Scope boundaries must be documented as design decisions.",
+          "element": "Patient Records context",
+          "analysis": "The model supports multiple animals per owner but doesn't handle multi-pet scenarios: sibling discount? Combined appointments? Single invoice for multiple animals?",
+          "recommendation": "Document as V1 scope decision. Defer multi-pet billing and scheduling to V2.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Documented as V1 scope: each animal is independent. Multi-pet billing, combined appointments, and sibling discounts deferred to V2.",
+            "structuralImpact": "+1 design principle."
+          }
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "gaps": [
+        {
+          "id": "SG-P2-01",
+          "category": "SG",
+          "severity": "warning",
+          "title": "VisitLifecycleSaga has no timeout for open state",
+          "rule": "Sagas with unbounded wait states create lifecycle debt.",
+          "element": "VisitLifecycleSaga in Clinical Care context",
+          "analysis": "The VisitLifecycleSaga transitions to 'open' when a visit begins but has no defined timeout. If a veterinarian forgets to close a visit, the saga waits indefinitely.",
+          "recommendation": "Add a configurable timeout (default: 12 hours). Auto-transition to abandoned at 24 hours.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Add configurable timeout. Warning at 12h, auto-abandon at 24h. Add INV-SAGA-01: visit must transition to completed or abandoned within timeout window.",
+            "structuralImpact": "+1 invariant on VisitLifecycleSaga, +1 event (VisitTimeoutWarning)."
+          }
+        },
+        {
+          "id": "SG-P2-02",
+          "category": "SG",
+          "severity": "warning",
+          "title": "Walk-in path dual-emit creates event ordering dependency",
+          "rule": "Commands that emit multiple events must define ordering guarantees.",
+          "element": "AcceptWalkIn command on Appointment aggregate",
+          "analysis": "AcceptWalkIn emits both AppointmentBooked and PatientCheckedIn. If PatientCheckedIn is processed before AppointmentBooked, the visit references an appointment that doesn't exist yet in projections.",
+          "recommendation": "Define ordering: AppointmentBooked must be persisted before PatientCheckedIn is emitted.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Define INV-AP-04: AppointmentBooked must be persisted before PatientCheckedIn is emitted. Both events share appointmentId for causal correlation.",
+            "structuralImpact": "+1 invariant on Appointment (walk-in path)."
+          }
+        },
+        {
+          "id": "HG-P2-01",
+          "category": "HG",
+          "severity": "warning",
+          "title": "Scheduling context at 3-aggregate boundary",
+          "rule": "Context size heuristic — ≤ 3 aggregates per context preferred.",
+          "element": "Scheduling bounded context",
+          "analysis": "Adding the Veterinarian aggregate puts Scheduling at the heuristic boundary (3 aggregates). Currently acceptable — monitor if complexity grows.",
+          "recommendation": "Accept for now. If V2 adds room/equipment booking, split into Scheduling and Staff Availability contexts.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Accept current structure. 3 aggregates is at threshold, not exceeding. Document as V2 watch item with explicit trigger condition.",
+            "structuralImpact": "No change. Documented as intentional."
+          }
+        },
+        {
+          "id": "DG-P2-01",
+          "category": "DG",
+          "severity": "warning",
+          "title": "Can multiple episodes exist per visit?",
+          "rule": "Cardinality constraints must be explicit in the specification.",
+          "element": "ClinicalEpisode and Visit aggregates",
+          "analysis": "A visit may involve multiple clinical episodes but the specification doesn't state cardinality. The saga 'awaits clinical episodes' (plural) but no invariant defines it.",
+          "recommendation": "Define explicitly: one-to-many. Add invariant: at least one episode must be completed before visit can close.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Explicitly one-to-many. Add INV-VS-04: visit cannot close unless at least one episode has reached completed status.",
+            "structuralImpact": "+1 invariant on Visit."
+          }
+        },
+        {
+          "id": "DG-P2-02",
+          "category": "DG",
+          "severity": "warning",
+          "title": "Pricing snapshot rule undefined",
+          "rule": "Temporal constraints on data must be explicit.",
+          "element": "PriceList and Invoice aggregates in Billing",
+          "analysis": "Can prices change while an active visit is in progress? If a price changes between TreatmentCompleted and GenerateInvoice, which price applies?",
+          "recommendation": "Define pricing snapshot: invoice captures prices at moment of VisitClosed. Add immutability invariant.",
+          "resolution": {
+            "action": "resolve",
+            "summary": "Invoice captures prices at moment of generation. Add INV-IN-03: line item prices are immutable after invoice generation. Standard point-in-time pricing.",
+            "structuralImpact": "+1 invariant on Invoice."
+          }
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "gaps": []
+    }
+  ],
+  "convergence": {
+    "passTrajectory": [18, 5, 0],
+    "invariantGrowth": { "start": 5, "end": 18 },
+    "sagaGrowth": { "start": 0, "end": 1 },
+    "aggregateGrowth": { "start": 6, "end": 8 },
+    "commandGrowth": { "start": 14, "end": 21 },
+    "eventGrowth": { "start": 12, "end": 19 }
+  }
+}

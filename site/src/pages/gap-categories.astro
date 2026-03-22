@@ -1,0 +1,296 @@
+---
+import Base from '../layouts/Base.astro';
+import thresholds from '../data/thresholds.json';
+
+const categories = [
+  {
+    code: 'SG',
+    name: 'Structural Gaps',
+    color: 'var(--gap-error)',
+    description: 'Missing or malformed elements in the domain specification. Binary — the element exists or it does not.',
+    rule: 'Every DDD building block that is referenced must be fully defined. Every aggregate must protect at least one invariant. Every cross-context dependency must declare a relationship type.',
+    checks: [
+      'Aggregates that are data containers (many fields, no invariants)',
+      'Commands without preconditions',
+      'Events that no one consumes',
+      'Context relationships described in prose but not formally declared',
+      'Missing entry paths described in requirements but absent from the specification',
+    ],
+    examples: [
+      { id: 'SG-01', desc: 'Aggregate with zero invariants — no consistency boundary to enforce', severity: 'ERROR', walkthroughId: 'SG-01' },
+      { id: 'SG-03', desc: 'Command sequence not enforced — implicit lifecycle', severity: 'ERROR', walkthroughId: 'SG-03' },
+      { id: 'SG-04', desc: 'No declared relationship between dependent contexts', severity: 'WARNING', walkthroughId: 'SG-04' },
+    ],
+  },
+  {
+    code: 'HG',
+    name: 'Heuristic Gaps',
+    color: 'var(--gap-warning)',
+    description: 'Patterns that violate established DDD principles. Each has a measurable threshold sourced from the DDD literature.',
+    rule: 'Thresholds are defaults, not dogma. They are calibrated from published sources and production experience. Override with rationale when your domain justifies it.',
+    checks: [
+      'Aggregates doing too much (high command count, many responsibilities)',
+      'Missing sagas where cross-aggregate coordination exists',
+      'Policies chained in sequence — often a saga in disguise',
+      'Contexts with too many aggregates (sign of a missing context boundary)',
+    ],
+    examples: [
+      { id: 'HG-01', desc: 'Sequential command pipeline on aggregate — suggests saga pattern', severity: 'WARNING', walkthroughId: 'HG-01' },
+      { id: 'HG-04', desc: 'Zero sagas in a domain with multi-step processes', severity: 'WARNING', walkthroughId: 'HG-04' },
+      { id: 'HG-05', desc: 'Invoice aggregate with no payment lifecycle', severity: 'WARNING', walkthroughId: 'HG-05' },
+    ],
+  },
+  {
+    code: 'LG',
+    name: 'Language Gaps',
+    color: 'var(--gap-language)',
+    description: 'Ambiguity or inconsistency in the ubiquitous language across the specification.',
+    rule: 'Every term must have exactly one meaning within its bounded context. Terms shared across contexts must have explicitly different definitions or identical definitions.',
+    checks: [
+      'Terms that mean different things to different people',
+      'Aggregate names that cause confusion with domain experts',
+      'Implicit concepts — referenced but never named or defined',
+      'Glossary gaps — terms used in commands/events but not formally defined',
+    ],
+    examples: [
+      { id: 'LG-01', desc: '"Visit" vs. "Appointment" — semantic overlap at context boundary', severity: 'WARNING', walkthroughId: 'LG-01' },
+      { id: 'LG-02', desc: '"Treatment" overloaded — means both single intervention and full episode', severity: 'WARNING', walkthroughId: 'LG-02' },
+    ],
+  },
+  {
+    code: 'DG',
+    name: 'Decision Gaps',
+    color: 'var(--accent)',
+    description: 'Architectural decisions that have been deferred or made without documented rationale.',
+    rule: 'Every boundary placement, aggregate decomposition, and relationship type must have a documented rationale. Deferred decisions must have an explicit scope note.',
+    checks: [
+      '"Where does X live?" questions with no clear answer',
+      'Boundaries drawn by convention rather than analysis',
+      'Pricing, scheduling, or access control models referenced but never defined',
+      'Scope assumptions that exist only in someone\'s head',
+    ],
+    examples: [
+      { id: 'DG-01', desc: 'Missing domain concept — referenced in requirements but absent from specification', severity: 'ERROR', walkthroughId: 'DG-01' },
+      { id: 'DG-02', desc: 'Pricing model undefined — service exists but data model is missing', severity: 'ERROR', walkthroughId: 'DG-02' },
+      { id: 'DG-04', desc: 'Multi-pet scenarios not scoped — implicit assumptions', severity: 'WARNING', walkthroughId: 'DG-04' },
+    ],
+  },
+];
+---
+
+<Base
+  title="Gap Categories | Signal-Driven Development"
+  description="Four categories of diagnostic gaps: Structural, Heuristic, Language, and Decision. Each with thresholds, examples, and real-world worked examples from a veterinary clinic domain."
+  ogImage="/img/og/gap-categories.png"
+  canonicalPath="/gap-categories"
+>
+  <section class="section">
+    <div class="container">
+      <h1>Four categories of gaps</h1>
+      <p style="color: var(--text-secondary); max-width: 640px; margin-bottom: var(--space-12);">
+        Every gap report evaluates a domain specification against four diagnostic categories.
+        Each gap is a signal — not a verdict. The architect reads, investigates, and resolves.
+      </p>
+
+      {/* Category cards grid */}
+      <div class="categories-grid">
+        {categories.map((cat) => (
+          <div class="card category-card" id={`cat-${cat.code.toLowerCase()}`}>
+            <div class="category-card__border" style={`background: ${cat.color}`} />
+            <span class="category-card__code" style={`color: ${cat.color}`}>{cat.code}</span>
+            <h2 class="category-card__name">{cat.name}</h2>
+            <p class="category-card__desc">{cat.description}</p>
+
+            <div class="category-card__detail">
+              <h3>Rule</h3>
+              <blockquote class="gap-detail__rule">{cat.rule}</blockquote>
+
+              <h3>What to look for</h3>
+              <ul class="category-card__checks">
+                {cat.checks.map((check) => (
+                  <li>{check}</li>
+                ))}
+              </ul>
+
+              {cat.code === 'HG' && (
+                <div class="category-card__thresholds">
+                  <h3>Heuristic Thresholds</h3>
+                  <table class="threshold-table">
+                    <thead>
+                      <tr>
+                        <th>Heuristic</th>
+                        <th>Default</th>
+                        <th>Source</th>
+                        <th>What it means</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {thresholds.map((t: { heuristic: string; threshold: string; source: string; meaning: string }) => (
+                        <tr>
+                          <td>{t.heuristic}</td>
+                          <td><code>{t.threshold}</code></td>
+                          <td>{t.source}</td>
+                          <td>{t.meaning}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              <h3>Examples from the veterinary clinic</h3>
+              <div class="category-card__examples">
+                {cat.examples.map((ex) => (
+                  <div class="example-item">
+                    <div class="example-item__header">
+                      <span class={`badge badge--${ex.severity === 'ERROR' ? 'error' : 'warning'}`}>
+                        {ex.severity}
+                      </span>
+                      <code class="example-item__id">{ex.id}</code>
+                    </div>
+                    <p>{ex.desc}</p>
+                    <a href={`/walkthrough?gap=${ex.walkthroughId}`} class="example-item__link">
+                      See this in the walkthrough →
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .category-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .category-card__border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .category-card__code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .category-card__name {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .category-card__desc {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+  }
+
+  .category-card__detail h3 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-tertiary);
+    margin: var(--space-4) 0 var(--space-2);
+  }
+
+  .category-card__checks {
+    list-style: none;
+    padding: 0;
+  }
+
+  .category-card__checks li {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    padding: var(--space-1) 0;
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .category-card__checks li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--text-tertiary);
+  }
+
+  .threshold-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    margin: var(--space-2) 0;
+  }
+
+  .threshold-table th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .threshold-table td {
+    padding: var(--space-2);
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .threshold-table code {
+    color: var(--accent);
+    font-size: var(--text-sm);
+  }
+
+  .example-item {
+    background: var(--bg-surface-2);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .example-item__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .example-item__id {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .example-item p {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .example-item__link {
+    font-size: var(--text-xs);
+    margin-top: var(--space-1);
+    display: inline-block;
+  }
+
+  @media (max-width: 1023px) {
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+const navLinks = [
+  { href: '/walkthrough', label: 'Walkthrough' },
+  { href: '/gap-categories', label: 'Gap Categories' },
+  { href: '/lineage', label: 'Lineage' },
+  { href: '/get-started', label: 'Get Started' },
+];
+---
+
+<nav class="nav" aria-label="Main navigation">
+  <a href="/" class="nav__wordmark">SDD</a>
+  <ul class="nav__links" id="nav-links" role="list">
+    {navLinks.map(({ href, label }) => (
+      <li>
+        <a href={href} class="nav__link">{label}</a>
+      </li>
+    ))}
+    <li>
+      <a
+        href="https://github.com/listenrightmeow/signal-driven-development"
+        class="nav__link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </a>
+    </li>
+  </ul>
+  <button
+    class="nav__toggle"
+    aria-expanded="false"
+    aria-controls="nav-links"
+    aria-label="Toggle navigation menu"
+    onclick="
+      const links = document.getElementById('nav-links');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      links.classList.toggle('nav__links--open');
+    "
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 12h18M3 6h18M3 18h18" />
+    </svg>
+  </button>
+</nav>

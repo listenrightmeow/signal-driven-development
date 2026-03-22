@@ -1,0 +1,32 @@
+[
+  {
+    "heuristic": "Aggregate command density",
+    "threshold": "≤ 6",
+    "source": "Vernon",
+    "meaning": "Too many commands = too many reasons to change"
+  },
+  {
+    "heuristic": "Context term overlap",
+    "threshold": "≤ 3",
+    "source": "Evans",
+    "meaning": "Shared terms = insufficient boundary"
+  },
+  {
+    "heuristic": "Saga step count",
+    "threshold": "≤ 5",
+    "source": "Practical",
+    "meaning": "Beyond 5 = decomposition needed"
+  },
+  {
+    "heuristic": "Invariant coverage",
+    "threshold": "≥ 1 per aggregate",
+    "source": "Evans",
+    "meaning": "No invariants = no consistency boundary"
+  },
+  {
+    "heuristic": "Event fan-out",
+    "threshold": "≤ 8 per aggregate",
+    "source": "Vernon",
+    "meaning": "High fan-out = multiple concerns"
+  }
+]

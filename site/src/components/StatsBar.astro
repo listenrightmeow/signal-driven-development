@@ -1,0 +1,16 @@
+---
+const stats = [
+  { value: '8', label: 'production domains converged' },
+  { value: '23', label: 'gaps resolved in example' },
+  { value: '5 → 18', label: 'invariants after convergence' },
+];
+---
+
+<div class="stats">
+  {stats.map(({ value, label }) => (
+    <div class="stat">
+      <span class="stat__value">{value}</span>
+      <span class="stat__label">{label}</span>
+    </div>
+  ))}
+</div>

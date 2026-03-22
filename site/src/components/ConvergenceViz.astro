@@ -1,0 +1,124 @@
+---
+// Build-time computed dot positions for the convergence animation
+// Pass 1: 18 dots scattered, Pass 2: 5 dots clustered, Pass 3: 1 dot converged
+
+const severityColors = [
+  'var(--gap-error)', 'var(--gap-error)', 'var(--gap-error)',    // 3 errors
+  'var(--gap-error)', 'var(--gap-error)',                        // 2 more errors
+  'var(--gap-warning)', 'var(--gap-warning)', 'var(--gap-warning)', // warnings
+  'var(--gap-warning)', 'var(--gap-warning)', 'var(--gap-warning)',
+  'var(--gap-warning)', 'var(--gap-warning)',
+  'var(--gap-language)', 'var(--gap-language)',                   // language
+  'var(--gap-warning)', 'var(--gap-warning)', 'var(--gap-warning)',
+];
+
+// Deterministic scattered positions for 18 dots
+const scatteredPositions = [
+  [15, 20], [72, 15], [35, 70], [85, 45], [50, 30],
+  [20, 55], [65, 65], [40, 40], [90, 25], [10, 80],
+  [55, 75], [78, 80], [30, 25], [60, 50], [45, 85],
+  [25, 45], [70, 35], [80, 60],
+];
+
+// Clustered positions (5 dots, center-ish)
+const clusteredPositions = [
+  [42, 45], [48, 38], [55, 50], [45, 55], [52, 42],
+];
+---
+
+<div class="convergence-viz" aria-label="Convergence visualization: 18 gaps scatter, then cluster to 5, then converge to 1 — representing three-pass domain model refinement">
+  <svg viewBox="0 0 100 100" class="convergence-viz__svg" role="img">
+    <title>Three-pass convergence animation</title>
+    <desc>18 colored dots representing gaps scatter across the canvas, then cluster to 5, then converge to a single bright dot — visualizing the SDD convergence process.</desc>
+
+    {/* Pass 1: scattered dots */}
+    {scatteredPositions.map((pos, i) => (
+      <circle
+        class="convergence-viz__dot convergence-viz__dot--p1"
+        cx={pos[0]}
+        cy={pos[1]}
+        r="2.5"
+        fill={severityColors[i]}
+        style={`animation-delay: ${i * 0.08}s`}
+      />
+    ))}
+
+    {/* Pass 2: clustered dots (appear after p1 fades) */}
+    {clusteredPositions.map((pos, i) => (
+      <circle
+        class="convergence-viz__dot convergence-viz__dot--p2"
+        cx={pos[0]}
+        cy={pos[1]}
+        r="3"
+        fill="var(--gap-warning)"
+        style={`animation-delay: ${1.5 + i * 0.1}s`}
+      />
+    ))}
+
+    {/* Pass 3: single converged dot */}
+    <circle
+      class="convergence-viz__dot convergence-viz__dot--p3"
+      cx="50"
+      cy="48"
+      r="4"
+      fill="var(--gap-success)"
+      style="animation-delay: 2.5s"
+    />
+  </svg>
+</div>
+
+<style>
+  .convergence-viz {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+  }
+
+  .convergence-viz__svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .convergence-viz__dot--p1 {
+    opacity: 0;
+    animation: dotAppear 0.3s ease forwards, dotFadeOut 0.4s ease 1.2s forwards;
+  }
+
+  .convergence-viz__dot--p2 {
+    opacity: 0;
+    animation: dotAppear 0.3s ease forwards, dotFadeOut 0.4s ease 2.2s forwards;
+  }
+
+  .convergence-viz__dot--p3 {
+    opacity: 0;
+    animation: dotAppear 0.4s ease forwards, dotGlow 1.5s ease 3s infinite alternate;
+  }
+
+  @keyframes dotAppear {
+    from { opacity: 0; transform: scale(0); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes dotFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes dotGlow {
+    from { filter: drop-shadow(0 0 2px var(--gap-success)); }
+    to { filter: drop-shadow(0 0 8px var(--gap-success)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .convergence-viz__dot--p1,
+    .convergence-viz__dot--p2 {
+      animation: none;
+      opacity: 0;
+    }
+
+    .convergence-viz__dot--p3 {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
