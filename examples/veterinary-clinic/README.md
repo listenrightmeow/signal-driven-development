@@ -18,12 +18,23 @@ Greenfield Veterinary Clinic manages appointments, patient records (animals), tr
 
 ## Files
 
-Each pass directory contains:
-- `domain-specification.md` — The domain model for that pass
-- `gap-report.md` — The gaps identified against that specification
-- `gap-resolution-log.md` — How each gap was resolved (Pass 1 and 2 only)
+### Pass 1 — Initial Extraction (18 gaps)
 
-Pass 3 has only a domain specification and gap report (zero gaps = no resolution log needed).
+- `pass-1/domain-specification.md` — The initial domain model
+- `pass-1/gap-report.md` — 18 gaps identified (5 errors, 13 warnings)
+- `pass-1/gap-resolution-log.md` — All 18 gaps resolved (16 accepted, 2 accepted with modification)
+
+### Pass 2 — Focused Resolution (5 gaps)
+
+- `pass-2/domain-specification.md` — Updated model incorporating all Pass 1 resolutions
+- `pass-2/gap-report.md` — 5 remaining gaps (0 errors, 5 warnings)
+- `pass-2/gap-resolution-log.md` — All 5 gaps resolved
+
+### Pass 3 — Final Convergence (0 gaps)
+
+- `pass-3/domain-specification.md` — The final converged domain model
+- `pass-3/gap-report.md` — Zero gaps. Model is implementation-ready.
+- `pass-3/architecture-palette.md` — Visual projection of the final state (Mermaid diagram)
 
 ## Key Lessons from This Example
 
@@ -32,3 +43,16 @@ Pass 3 has only a domain specification and gap report (zero gaps = no resolution
 2. **Pass 2 forces real decisions.** The boundary between Patient Records and Clinical Care had to be redrawn. The Treatment aggregate was decomposed into a saga. These aren't mechanical fixes — they're architectural decisions that required judgment and documented rationale.
 
 3. **Pass 3 confirms convergence.** Zero gaps doesn't mean the model is perfect. It means every question the model raised has been answered. The architect either changed the specification or documented why the current design is intentional.
+
+4. **Invariants are the signal of maturity.** Pass 1 had 5 invariants across 6 aggregates. Pass 3 has 18 across 8. The growth from data containers to consistency boundaries is the clearest indicator of model quality.
+
+## Final Building Block Summary
+
+| Building Block | Pass 1 | Pass 3 (Final) | Delta |
+|----------------|--------|----------------|-------|
+| Bounded Contexts | 4 | 4 | 0 |
+| Aggregates | 6 | 8 | +2 |
+| Commands | 14 | 21 | +7 |
+| Events | 12 | 19 | +7 |
+| Sagas | 0 | 1 | +1 |
+| Invariants | 5 | 18 | +13 |

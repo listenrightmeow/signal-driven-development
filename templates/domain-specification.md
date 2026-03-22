@@ -43,12 +43,15 @@
 **Responsibility**: [What consistency boundary this aggregate protects]
 
 **Commands**:
+
 - `[CommandName]` — [What it does]. Preconditions: [What must be true]. Emits: `[EventName]`.
 
 **Domain Events**:
+
 - `[EventName]` — [What happened]. Payload: [Key fields].
 
 **Invariants**:
+
 - `INV-[XX]-[NN]`: [The rule that must always be true within this aggregate's consistency boundary]
 
 ---

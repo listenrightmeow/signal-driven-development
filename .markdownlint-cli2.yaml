@@ -1,0 +1,8 @@
+config:
+  # Disable line length — this is a prose-heavy methodology repo, not code
+  MD013: false
+  # Disable first-line heading — GitHub issue/PR templates use YAML front matter
+  MD041: false
+  # Allow duplicate headings under different parents (e.g., "Examples" under each gap category)
+  MD024:
+    siblings_only: true
