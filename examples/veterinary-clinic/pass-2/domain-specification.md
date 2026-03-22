@@ -64,6 +64,7 @@
 **Responsibility**: Manages the lifecycle of a scheduled or walk-in appointment.
 
 **Commands**:
+
 - `BookAppointment` — Schedules a new appointment. Preconditions: Time slot available, veterinarian has availability. Emits: `AppointmentBooked`.
 - `RescheduleAppointment` — Moves to a new time. Preconditions: Appointment exists, not completed, new time is in the future. Emits: `AppointmentRescheduled`.
 - `CancelAppointment` — Cancels the appointment. Preconditions: Appointment exists, not completed. Emits: `AppointmentCancelled`.
@@ -71,12 +72,14 @@
 - `AcceptWalkIn` — Creates a walk-in appointment and immediately checks in. Preconditions: Veterinarian available. Emits: `AppointmentBooked` (visitType: walk-in) then `PatientCheckedIn`. Ordering invariant: `AppointmentBooked` must be persisted before `PatientCheckedIn` is emitted.
 
 **Domain Events**:
+
 - `AppointmentBooked` — Payload: appointmentId, patientId, veterinarianId, scheduledTime, visitType (scheduled | walk-in).
 - `AppointmentRescheduled` — Payload: appointmentId, previousTime, newTime.
 - `AppointmentCancelled` — Payload: appointmentId, reason.
 - `PatientCheckedIn` — Payload: appointmentId, checkedInAt.
 
 **Invariants**:
+
 - `INV-AP-01`: No two appointments for the same veterinarian may overlap in scheduled time window.
 - `INV-AP-02`: Appointment status must follow lifecycle — booked to checked-in or cancelled; checked-in to visited.
 - `INV-AP-03`: Rescheduled time must be in the future relative to command timestamp.
@@ -88,14 +91,17 @@
 **Responsibility**: Manages veterinarian availability and schedule blocks.
 
 **Commands**:
+
 - `SetAvailability` — Defines recurring availability windows. Emits: `AvailabilitySet`.
 - `BlockTimeSlot` — Blocks a specific time slot (vacation, meeting). Emits: `TimeSlotBlocked`.
 
 **Domain Events**:
+
 - `AvailabilitySet` — Payload: veterinarianId, dayOfWeek, startTime, endTime.
 - `TimeSlotBlocked` — Payload: veterinarianId, blockedDate, startTime, endTime, reason.
 
 **Invariants**:
+
 - `INV-VET-01`: Veterinarian must have at least one availability window defined before appointments can be booked.
 
 ### AnimalProfile — Patient Records
@@ -104,14 +110,17 @@
 **Responsibility**: Maintains the animal's identity and medical history.
 
 **Commands**:
+
 - `RegisterAnimal` — Creates a new patient record. Emits: `AnimalRegistered`.
 - `UpdateAnimalProfile` — Updates weight, allergies, notes. Emits: `AnimalProfileUpdated`.
 
 **Domain Events**:
+
 - `AnimalRegistered` — Payload: animalId, ownerId, species, breed, name, dateOfBirth.
 - `AnimalProfileUpdated` — Payload: animalId, changedFields.
 
 **Invariants**:
+
 - `INV-AP-01`: Every animal must be associated with exactly one owner.
 
 ### Owner — Patient Records
@@ -120,14 +129,17 @@
 **Responsibility**: Maintains owner contact information and links to animals.
 
 **Commands**:
+
 - `RegisterOwner` — Creates owner record. Emits: `OwnerRegistered`.
 - `UpdateOwnerContact` — Updates phone, email, address. Emits: `OwnerContactUpdated`.
 
 **Domain Events**:
+
 - `OwnerRegistered` — Payload: ownerId, name, phone, email.
 - `OwnerContactUpdated` — Payload: ownerId, changedFields.
 
 **Invariants**:
+
 - `INV-OW-01`: Owner must have at least one contact method (phone or email).
 
 ### Visit — Clinical Care
@@ -136,14 +148,17 @@
 **Responsibility**: Links an appointment to clinical activities. Managed by the VisitLifecycleSaga.
 
 **Commands**:
+
 - `OpenVisit` — Initiates a clinical visit from a checked-in appointment. Emits: `VisitOpened`.
 - `CloseVisit` — Marks the visit as complete. Preconditions: at least one clinical episode completed. Emits: `VisitClosed`.
 
 **Domain Events**:
+
 - `VisitOpened` — Payload: visitId, appointmentId, animalId, veterinarianId.
 - `VisitClosed` — Payload: visitId, closedAt.
 
 **Invariants**:
+
 - `INV-VS-01`: A visit can only be opened for an appointment with status checked-in.
 - `INV-VS-02`: Only one active (open) visit per appointment.
 - `INV-VS-03`: A visit cannot be closed if it has zero associated clinical episodes.
@@ -156,21 +171,25 @@
 **State machine**: `initiated` to `diagnosed` to `treating` to `completed`.
 
 **Commands**:
+
 - `StartEpisode` — Initiates a clinical episode for a visit. Valid in: (none — creates new). Emits: `EpisodeStarted`.
 - `RecordDiagnosis` — Documents the veterinarian's diagnosis. Valid in: `initiated`. Emits: `DiagnosisRecorded`.
 - `AdministerMedication` — Records a medication given. Valid in: `diagnosed` or `treating`. Emits: `MedicationAdministered`.
 - `CompleteEpisode` — Marks episode as finished. Valid in: `diagnosed` or `treating`. Emits: `EpisodeCompleted`.
 
 **Domain Events**:
+
 - `EpisodeStarted` — Payload: episodeId, visitId, animalId, veterinarianId.
 - `DiagnosisRecorded` — Payload: episodeId, diagnosisCode, notes.
 - `MedicationAdministered` — Payload: episodeId, medicationId, dosage.
 - `EpisodeCompleted` — Payload: episodeId, completedAt, summary.
 
 **Value Objects**:
+
 - `EpisodeStatus` — Enum: initiated, diagnosed, treating, completed.
 
 **Invariants**:
+
 - `INV-EP-01`: An episode cannot be completed without at least one diagnosis recorded.
 - `INV-EP-02`: Medication can only be administered after diagnosis (status must be `diagnosed` or `treating`).
 
@@ -182,21 +201,25 @@
 **State machine**: `generated` to `partially-paid` to `paid`; `generated` or `partially-paid` to `disputed`; `disputed` to `refunded`.
 
 **Commands**:
+
 - `GenerateInvoice` — Creates invoice from clinical episode line items. Emits: `InvoiceGenerated`.
 - `RecordPayment` — Marks full or partial payment. Emits: `PaymentRecorded`.
 - `DisputeInvoice` — Marks invoice as disputed. Emits: `InvoiceDisputed`.
 - `RefundInvoice` — Processes refund for a disputed invoice. Emits: `InvoiceRefunded`.
 
 **Domain Events**:
+
 - `InvoiceGenerated` — Payload: invoiceId, visitId, lineItems, totalAmount.
 - `PaymentRecorded` — Payload: invoiceId, amount, method, remainingBalance.
 - `InvoiceDisputed` — Payload: invoiceId, reason.
 - `InvoiceRefunded` — Payload: invoiceId, refundAmount.
 
 **Value Objects**:
+
 - `InvoiceStatus` — Enum: generated, partially-paid, paid, disputed, refunded.
 
 **Invariants**:
+
 - `INV-IN-01`: Invoice total must equal sum of line item amounts.
 - `INV-IN-02`: Payment amount cannot exceed remaining balance.
 
@@ -206,14 +229,17 @@
 **Responsibility**: Manages pricing rules for clinical episode codes. Static pricing for V1 (episode code maps to price).
 
 **Commands**:
+
 - `SetPrice` — Sets or updates the price for a treatment code. Emits: `PriceSet`.
 - `DeactivatePrice` — Removes a treatment code from the active price list. Emits: `PriceDeactivated`.
 
 **Domain Events**:
+
 - `PriceSet` — Payload: priceListId, treatmentCode, price, effectiveDate.
 - `PriceDeactivated` — Payload: priceListId, treatmentCode, deactivatedAt.
 
 **Invariants**:
+
 - `INV-PL-01`: Every treatment code referenced in an invoice must have an active price at time of invoice generation.
 
 ---
@@ -256,6 +282,7 @@
 
 **Trigger**: `PatientCheckedIn`
 **Steps**:
+
 1. Open visit (issue `OpenVisit` command)
 2. Await clinical episodes (one or more)
 3. Close visit on veterinarian command (`CloseVisit`)
@@ -268,6 +295,7 @@
 **Timeout**: Configurable per clinic. Default warning at 12 hours (`VisitTimeoutWarning`), auto-abandon at 24 hours (`VisitAbandoned`).
 
 **Invariants**:
+
 - `INV-SAGA-01`: A visit in open state must transition to completed or abandoned within the configured timeout window.
 
 ---

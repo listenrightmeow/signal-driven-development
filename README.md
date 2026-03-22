@@ -73,15 +73,19 @@ See the full [Quick Start Guide](docs/quickstart.md) for a detailed walkthrough,
 SDD evaluates domain specifications against four categories:
 
 ### Structural Gaps (SG)
+
 Missing or malformed elements. Binary — the element exists or it doesn't. Example: an aggregate without invariants.
 
 ### Heuristic Gaps (HG)
+
 Patterns that violate established DDD principles from Evans, Vernon, Brandolini, and others. Each has a measurable threshold. Example: aggregate command density exceeding 6.
 
 ### Language Gaps (LG)
+
 Ambiguity or inconsistency in the ubiquitous language. Example: same term used with different definitions across contexts.
 
 ### Decision Gaps (DG)
+
 Architectural decisions deferred or made without documented rationale. Example: a boundary that could be drawn two ways.
 
 See the full [Gap Categories Reference](docs/gap-categories.md) for detailed definitions, examples, and heuristic thresholds.
@@ -115,7 +119,7 @@ Pick a bounded context in your system. Write the domain specification — name e
 
 ## Repository Structure
 
-```
+```text
 signal-driven-development/
   templates/
     domain-specification.md      # Template for expressing the domain model

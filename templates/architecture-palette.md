@@ -18,7 +18,7 @@ The palette is a communication artifact and a verification surface. Patterns tha
 
 Use Mermaid, a whiteboard, or any diagramming tool. The structure is:
 
-```
+```text
 [Context A]
   Command → Aggregate → Event
                           ↓

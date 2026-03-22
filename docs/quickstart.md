@@ -12,7 +12,7 @@ Get started with Signal-Driven Development in five steps.
 
 Copy the four templates from `templates/` into your project:
 
-```
+```text
 my-project/
   pass-1/
     domain-specification.md

@@ -41,4 +41,4 @@
 
 | Item | Source Gap | Description | Target |
 |------|-----------|-------------|--------|
-| | | | [Next pass | ADR | Backlog] |
+| | | | [Next pass \| ADR \| Backlog] |

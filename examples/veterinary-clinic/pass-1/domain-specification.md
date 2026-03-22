@@ -61,12 +61,14 @@
 **Responsibility**: Manages the lifecycle of a scheduled appointment.
 
 **Commands**:
+
 - `BookAppointment` — Schedules a new appointment. Preconditions: Time slot available. Emits: `AppointmentBooked`.
 - `RescheduleAppointment` — Moves to a new time. Preconditions: Appointment exists, not completed. Emits: `AppointmentRescheduled`.
 - `CancelAppointment` — Cancels the appointment. Preconditions: Appointment exists, not completed. Emits: `AppointmentCancelled`.
 - `CheckInPatient` — Marks patient as arrived. Preconditions: Appointment exists, status is booked. Emits: `PatientCheckedIn`.
 
 **Domain Events**:
+
 - `AppointmentBooked` — Payload: appointmentId, patientId, veterinarianId, scheduledTime, visitType.
 - `AppointmentRescheduled` — Payload: appointmentId, previousTime, newTime.
 - `AppointmentCancelled` — Payload: appointmentId, reason.
@@ -80,14 +82,17 @@
 **Responsibility**: Maintains the animal's identity and medical history.
 
 **Commands**:
+
 - `RegisterAnimal` — Creates a new patient record. Emits: `AnimalRegistered`.
 - `UpdateAnimalProfile` — Updates weight, allergies, notes. Emits: `AnimalProfileUpdated`.
 
 **Domain Events**:
+
 - `AnimalRegistered` — Payload: animalId, ownerId, species, breed, name, dateOfBirth.
 - `AnimalProfileUpdated` — Payload: animalId, changedFields.
 
 **Invariants**:
+
 - `INV-AP-01`: Every animal must be associated with exactly one owner.
 
 ### Owner — Patient Records
@@ -96,14 +101,17 @@
 **Responsibility**: Maintains owner contact information and links to animals.
 
 **Commands**:
+
 - `RegisterOwner` — Creates owner record. Emits: `OwnerRegistered`.
 - `UpdateOwnerContact` — Updates phone, email, address. Emits: `OwnerContactUpdated`.
 
 **Domain Events**:
+
 - `OwnerRegistered` — Payload: ownerId, name, phone, email.
 - `OwnerContactUpdated` — Payload: ownerId, changedFields.
 
 **Invariants**:
+
 - `INV-OW-01`: Owner must have at least one contact method (phone or email).
 
 ### Treatment — Clinical Care
@@ -112,18 +120,21 @@
 **Responsibility**: Manages the full treatment lifecycle from diagnosis through completion.
 
 **Commands**:
+
 - `StartTreatment` — Initiates treatment for a visit. Emits: `TreatmentStarted`.
 - `RecordDiagnosis` — Documents the veterinarian's diagnosis. Emits: `DiagnosisRecorded`.
 - `AdministerMedication` — Records a medication given. Emits: `MedicationAdministered`.
 - `CompleteTreatment` — Marks treatment as finished. Emits: `TreatmentCompleted`.
 
 **Domain Events**:
+
 - `TreatmentStarted` — Payload: treatmentId, visitId, animalId, veterinarianId.
 - `DiagnosisRecorded` — Payload: treatmentId, diagnosisCode, notes.
 - `MedicationAdministered` — Payload: treatmentId, medicationId, dosage.
 - `TreatmentCompleted` — Payload: treatmentId, completedAt, summary.
 
 **Invariants**:
+
 - `INV-TR-01`: A treatment cannot be completed without at least one diagnosis recorded.
 - `INV-TR-02`: Medication can only be administered after diagnosis.
 
@@ -133,14 +144,17 @@
 **Responsibility**: Generates and tracks payment for a visit.
 
 **Commands**:
+
 - `GenerateInvoice` — Creates invoice from treatment line items. Emits: `InvoiceGenerated`.
 - `RecordPayment` — Marks full or partial payment. Emits: `PaymentRecorded`.
 
 **Domain Events**:
+
 - `InvoiceGenerated` — Payload: invoiceId, visitId, lineItems, totalAmount.
 - `PaymentRecorded` — Payload: invoiceId, amount, method, remainingBalance.
 
 **Invariants**:
+
 - `INV-IN-01`: Invoice total must equal sum of line item amounts.
 
 ### Visit — Clinical Care
@@ -149,10 +163,12 @@
 **Responsibility**: Links an appointment to clinical activities.
 
 **Commands**:
+
 - `OpenVisit` — Initiates a clinical visit from a checked-in appointment. Emits: `VisitOpened`.
 - `CloseVisit` — Marks the visit as complete. Emits: `VisitClosed`.
 
 **Domain Events**:
+
 - `VisitOpened` — Payload: visitId, appointmentId, animalId, veterinarianId.
 - `VisitClosed` — Payload: visitId, closedAt.
 
