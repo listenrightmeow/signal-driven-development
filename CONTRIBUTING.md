@@ -1,6 +1,8 @@
 # Contributing to Signal-Driven Development
 
-Thank you for your interest in contributing to SDD. This is a documentation and methodology repository. Contributions are ideas, templates, examples, and editorial improvements, not code.
+Thank you for your interest in contributing to SDD.
+This is a documentation and methodology repository.
+Contributions are ideas, templates, examples, and editorial improvements, not code.
 
 ## What We Welcome
 
@@ -41,7 +43,9 @@ To keep the repository consistent:
 
 ## Review Process
 
-All contributions are reviewed by the maintainer. For methodology changes, expect discussion. SDD emerged from practice, and changes should be grounded in real domain modeling experience.
+All contributions are reviewed by the maintainer.
+For methodology changes, expect discussion.
+SDD emerged from practice, and changes should be grounded in real domain modeling experience.
 
 ## Getting Help
 
