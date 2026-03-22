@@ -1,0 +1,6 @@
+config:
+  # Allow longer lines — 80 chars is too restrictive for prose
+  MD013:
+    line_length: 120
+  # Disable first-line heading rule — GitHub issue/PR templates use YAML front matter
+  MD041: false
