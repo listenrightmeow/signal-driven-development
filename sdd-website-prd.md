@@ -118,6 +118,7 @@ The site is not a product page. It does not mention Complai, Sift, or any commer
 ```
 
 **Image build pipeline** (Astro integration):
+
 - Source images stored as high-resolution originals (2x or 3x).
 - Astro `@astrojs/image` or `sharp` generates all variants at build time: 1x, 2x, 3x in AVIF, WebP, and JPEG/PNG.
 - LQIP files generated at build time: 32px wide, JPEG quality 20, saved as separate image files (not base64). Typically 200-500 bytes each.
@@ -126,6 +127,7 @@ The site is not a product page. It does not mention Complai, Sift, or any commer
 - No base64 encoding anywhere. Every image — including placeholders — is a real file served over HTTP and eligible for browser and edge caching.
 
 **Explicit width and height on every `<img>`** to reserve layout space and prevent CLS. Aspect ratio maintained via CSS `aspect-ratio` property as backup.
+
 - JavaScript: Deferred. Interactive sections load as Astro islands — JS ships only for components that need it. The hero convergence animation, gap walkthrough, and lineage timeline are the only JS-required sections.
 - Bundle budget: < 30KB critical path (fully styled above-the-fold HTML + inlined CSS — no base64, no embedded images). < 150KB total including all deferred section CSS, interactive JS, and font files. Font files, LQIP image files, and below-the-fold CSS are excluded from the critical budget — they arrive after first paint as cacheable edge requests.
 - Lighthouse targets: Performance ≥ 95, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 95.
@@ -396,6 +398,7 @@ Vercel Git integration is **disabled** — deploys are controlled exclusively th
 #### Bundle budget check script
 
 `site/scripts/check-bundle-budget.mjs` reads the built `site/dist/` output and asserts:
+
 - Critical path (inlined HTML for `/index.html`): < 30KB gzipped
 - Total JS (all deferred bundles): < 100KB gzipped
 - Total CSS (all deferred bundles): < 20KB gzipped
@@ -410,6 +413,7 @@ Reports sizes, deltas from threshold, and exits non-zero if any budget is exceed
 **Vercel is the deployment platform. Vercel Edge Network handles global CDN distribution.**
 
 **Deployment**:
+
 - Static site deployed to Vercel. Deploys controlled exclusively through the `deploy-site.yml` GitHub Actions workflow (§3.4). Vercel Git integration is disabled.
 - Vercel Edge Network distributes to 30+ global PoPs. First-byte latency target: < 50ms for US/EU, < 150ms globally.
 - Domain: TBD. Vercel preview URLs available immediately. Custom domain configured post-launch.
@@ -464,6 +468,7 @@ All caching is configured via `vercel.json` headers. The strategy exploits the f
 ```
 
 **Edge behavior**:
+
 - Vercel Edge Network caches all static assets at every PoP. First request to a PoP populates the edge cache. Subsequent requests from the same region are served from edge — zero origin round-trips.
 - `stale-while-revalidate` on HTML ensures that deploys propagate without users ever seeing a loading state. The edge serves the previous version while fetching the new one in the background. The next request gets the fresh version.
 - Immutable assets (JS, CSS, fonts, images) never revalidate. The content hash in the filename is the cache-busting mechanism. Old filenames age out of edge caches naturally after TTL expiry (irrelevant since they're never requested again after a deploy).
@@ -478,7 +483,7 @@ All caching is configured via `vercel.json` headers. The strategy exploits the f
 
 ### 4.1 Site Map
 
-```
+```text
 /                           → Homepage (hero + methodology overview)
 /walkthrough                → Interactive three-pass convergence experience
 /gap-categories             → Gap category reference with examples
@@ -500,7 +505,7 @@ Minimal top nav: `SDD` wordmark (left) → section links (center) → `GitHub` r
 
 ### 5.1 Existing Repository Structure (untouched)
 
-```
+```text
 signal-driven-development/
 ├── .github/                        # Existing GH config
 ├── docs/                           # Methodology documentation
@@ -533,7 +538,7 @@ signal-driven-development/
 
 ### 5.2 Website Addition
 
-```
+```text
 signal-driven-development/
 ├── site/                           # ← Astro website (new)
 │   ├── src/
@@ -634,7 +639,7 @@ Until the prebuild parser is implemented, `walkthrough.json` is manually maintai
 
 **No website artifacts at the root.** No `dist/`, no `node_modules/`, no `.vercel/`, no build cache at the root level. Everything website-related lives inside `site/` or `.github/workflows/`. The root `.gitignore` adds:
 
-```
+```text
 site/node_modules/
 site/dist/
 site/.astro/
@@ -642,6 +647,7 @@ site/.vercel/
 ```
 
 **Vercel build is scoped to `site/`.** The `vercel.json` or Vercel project settings set:
+
 - Root directory: `site`
 - Build command: `npm run build`
 - Output directory: `dist`
@@ -655,6 +661,7 @@ Vercel only sees and builds the `site/` directory. The methodology content at ro
 #### `ci-content.yml` — Methodology content
 
 **Trigger**: Push/PR modifying files matching:
+
 ```yaml
 paths:
   - 'templates/**'
@@ -682,6 +689,7 @@ The check runs a script (`scripts/check-content-drift.sh`) that computes hashes 
 ```
 
 **Drift manifest** (`site/src/data/.content-hashes.json`):
+
 ```json
 {
   "sources": {
@@ -697,11 +705,12 @@ The check runs a script (`scripts/check-content-drift.sh`) that computes hashes 
 ```
 
 **`scripts/check-content-drift.sh`** behavior:
+
 - Computes SHA256 of each source file listed in the manifest
 - Compares against the stored hash
 - If any hash differs: **fails the CI check** with a clear message:
 
-```
+```text
 CONTENT DRIFT DETECTED
 
   Modified: examples/veterinary-clinic/pass-1/gap-report.md
@@ -715,6 +724,7 @@ and run: npm run sync:content-hashes (from site/) to update the manifest.
 - If all hashes match: passes silently.
 
 **The workflow for updating methodology content that the site depends on:**
+
 1. Edit the methodology files (e.g., update a gap in the worked example)
 2. Update `site/src/data/walkthrough.json` to reflect the change
 3. Run `npm run sync:content-hashes` from `site/` — regenerates `.content-hashes.json` from current source file hashes
@@ -727,6 +737,7 @@ This ensures: documentation-only changes never trigger a deploy, but documentati
 #### `ci-site.yml` — Website
 
 **Trigger**: Push/PR modifying files matching:
+
 ```yaml
 paths:
   - 'site/**'
@@ -747,6 +758,7 @@ Dependencies cached under `site/node_modules` and `site/.astro`. Sharp cache key
 #### `deploy-site.yml` — Website deployment
 
 **Trigger**: Push to `main` modifying files matching:
+
 ```yaml
 paths:
   - 'site/**'
@@ -757,9 +769,11 @@ paths:
 ### 5.5 Developer Workflow
 
 **For methodology contributors** (templates, examples, docs):
+
 - Clone the repo. Edit markdown. Push. `ci-content.yml` runs markdownlint. No Node.js setup required.
 
 **For website contributors:**
+
 ```bash
 cd site
 npm install
@@ -939,7 +953,7 @@ The root of the repo is never the working directory for website development. All
 
 **Terminal block**: Styled as a dark terminal with monospace font. The `init-domain.sh` command is copy-on-click. Shows the output:
 
-```
+```bash
 $ ./scripts/init-domain.sh "Greenfield Clinic" 1
 
 Created: greenfield-clinic/
@@ -982,6 +996,7 @@ Ready. Write your domain specification, then run the gap report.
 **Apple touch icon**: 180×180 PNG. Same motif on the `--bg-primary` background.
 
 **Web manifest** (`site.webmanifest`):
+
 ```json
 {
   "name": "Signal-Driven Development",
@@ -1061,6 +1076,7 @@ Both fonts self-hosted, subset to Latin + Latin Extended, lazy-loaded with FOUT 
 **Badges**: Pill-shaped, semantic color background at 12-15% opacity, text in full semantic color. 10-11px uppercase.
 
 **Buttons**:
+
 - Primary: `--accent` background, white text, 8px radius, 500 weight.
 - Secondary: Transparent background, `--text-tertiary` text, 1px `--border` border.
 - Action (resolve/override/dismiss): Semantic color background or border matching the action.
@@ -1116,6 +1132,7 @@ Minimal, privacy-respecting analytics to measure whether the site is converting.
 **Performance constraint: Analytics must never impact site performance.** All analytics scripts are deferred until after the site is fully rendered and interactive. Analytics is a passive observer — it does not participate in the critical rendering path, the hydration sequence, or any user-facing interaction.
 
 **Loading strategy**:
+
 - Analytics script tag uses `defer` and is placed at the end of `<body>`, after all content and interactive JS.
 - Script execution is further gated behind `requestIdleCallback` (with a `setTimeout` fallback at 3000ms for browsers that don't support it). Analytics initialization only fires when the browser's main thread is idle — never during layout, paint, or interaction handler execution.
 - No `async` loading — `async` can fire mid-parse and compete with island hydration. `defer` guarantees execution after HTML parsing completes, and `requestIdleCallback` guarantees execution after the browser is idle.
@@ -1163,6 +1180,7 @@ All content is static and must be finalized before build.
 Complete interactive experience at launch. No phased rollout — the site is the methodology's first impression and it needs to land fully formed.
 
 **Scope**:
+
 - Homepage (hero + convergence visualization + stats)
 - Interactive walkthrough (all three passes, resolve/override/dismiss, counter animations, pass progression)
 - Gap categories (cards + detail views with threshold slider for HG)
@@ -1185,6 +1203,7 @@ Complete interactive experience at launch. No phased rollout — the site is the
 Everything else ships Tuesday or the launch slips.
 
 **Post-launch iteration (Week 2+)**:
+
 - Custom domain configured
 - **301 redirects from Vercel preview URLs to custom domain** — once the custom domain is live, configure redirects so any indexed or shared preview URLs resolve correctly. Vercel supports redirect rules in `vercel.json`. Critical for SEO: any page indexed under the preview domain must redirect to the canonical domain to avoid duplicate content penalties.
 - Performance audit and optimization pass

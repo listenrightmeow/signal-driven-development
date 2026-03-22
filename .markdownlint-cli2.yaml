@@ -6,3 +6,5 @@ config:
   # Allow duplicate headings under different parents (e.g., "Examples" under each gap category)
   MD024:
     siblings_only: true
+  # Disable table column style — compact pipe style is intentional in PRD tables
+  MD060: false
