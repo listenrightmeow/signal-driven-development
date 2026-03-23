@@ -8,3 +8,8 @@ config:
     siblings_only: true
   # Disable table column style — compact pipe style is intentional in PRD tables
   MD060: false
+  # Allow specific HTML elements for centering images
+  MD033:
+    allowed_elements:
+      - p
+      - img

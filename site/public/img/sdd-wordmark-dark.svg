@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 24">
   <text
     x="0"
-    y="34"
+    y="18"
     font-family="'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace"
     font-weight="600"
-    font-size="36"
+    font-size="20"
     fill="#1a1d21"
-    letter-spacing="3"
+    letter-spacing="2"
   >SDD</text>
-  <circle cx="132" cy="10" r="5" fill="#16a34a"/>
+  <circle cx="70" cy="5" r="3" fill="#16a34a"/>
 </svg>
