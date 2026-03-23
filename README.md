@@ -1,5 +1,7 @@
 # Signal-Driven Development (SDD)
 
+![SDD — Signal-Driven Development](site/public/img/sdd-wordmark-dark.svg)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Methodology Version](https://img.shields.io/badge/methodology-v1.0.0-green.svg)](CHANGELOG.md)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)

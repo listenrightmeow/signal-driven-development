@@ -2,13 +2,15 @@
 const navLinks = [
   { href: '/walkthrough', label: 'Walkthrough' },
   { href: '/gap-categories', label: 'Gap Categories' },
-  { href: '/lineage', label: 'Lineage' },
   { href: '/get-started', label: 'Get Started' },
 ];
 ---
 
 <nav class="nav" aria-label="Main navigation">
-  <a href="/" class="nav__wordmark">SDD</a>
+  <a href="/" class="nav__wordmark" aria-label="SDD — Signal-Driven Development">
+    <span class="nav__wordmark-text">SDD</span>
+    <span class="nav__wordmark-dot"></span>
+  </a>
   <ul class="nav__links" id="nav-links" role="list">
     {
       navLinks.map(({ href, label }) => (

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Walkthrough from '../components/Walkthrough';
+import '../styles/walkthrough.css';
 
 const initialGapId = Astro.url.searchParams.get('gap') || undefined;
 ---
@@ -39,13 +40,6 @@ const initialGapId = Astro.url.searchParams.get('gap') || undefined;
         ],
       })}
     />
-    <link
-      rel="preload"
-      href="/styles/walkthrough.css"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript><link rel="stylesheet" href="/styles/walkthrough.css" /></noscript>
   </Fragment>
 
   <section class="section">
