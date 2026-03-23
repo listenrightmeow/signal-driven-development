@@ -721,7 +721,6 @@ export default function LineageTimeline() {
                   className={`lineage__node ${loaded ? 'lineage__node--loaded' : ''} ${isSelected ? 'lineage__node--selected' : ''} ${isDimmed ? 'lineage__node--dimmed' : ''}`}
                   onClick={(e: any) => handleNodeClick(e, i)}
                   onKeyDown={(e: any) => handleKeyDown(e, i)}
-
                   style={{
                     cursor: 'pointer',
                     animationDelay: `${i * 80}ms`,
@@ -800,7 +799,6 @@ export default function LineageTimeline() {
                   >
                     {surname}
                   </text>
-
                 </g>
               );
             })}
