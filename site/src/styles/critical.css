@@ -352,13 +352,11 @@ pre {
 
 .hero__headline {
   font-size: var(--text-4xl);
-  max-width: 720px;
 }
 
 .hero__subline {
   font-size: var(--text-md);
   color: var(--text-secondary);
-  max-width: 540px;
   font-weight: 300;
 }
 
