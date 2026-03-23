@@ -31,17 +31,186 @@ import LineageTimeline from '../components/LineageTimeline';
     <div class="container" style="max-width: 720px; margin: 0 auto;">
       <h2>What is Signal-Driven Development?</h2>
       <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
-        SDD is a solo-practitioner methodology for Domain-Driven Design. It introduces
-        <strong style="color: var(--text-primary);">gap reports</strong> — structured diagnostic signals
-        that measure the completeness and consistency of a domain specification. The definition of done
-        is simple: <strong style="color: var(--text-primary);">zero unresolved gaps</strong>.
+        Signal-Driven Development is a solo-practitioner methodology that extends Domain-Driven
+        Design with three things it has never had: a
+        <strong style="color: var(--text-primary);">structured convergence process</strong>, <strong
+          style="color: var(--text-primary);">diagnostic feedback loops</strong
+        >, and a
+        <strong style="color: var(--text-primary);">measurable definition of done</strong>.
       </p>
       <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
-        A domain specification iterates through passes. Each pass runs a gap report that identifies
-        structural, heuristic, language, and decision gaps. The architect resolves each gap. Typical
-        trajectory: <strong style="color: var(--text-primary);">18 → 5 → 0</strong> gaps across three
-        passes.
+        The core mechanism is the <strong style="color: var(--text-primary);">gap report</strong> — a
+        structured diagnostic that evaluates a domain specification against four categories of completeness
+        and consistency. Gaps are signals, not verdicts. The architect reads, investigates, and resolves
+        each one. The definition of done is simple:
+        <strong style="color: var(--text-primary);">zero unresolved gaps</strong>.
       </p>
+
+      <h3 style="margin-top: var(--space-8);">The problem</h3>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        DDD has no feedback loop. Traditional knowledge crunching assumes collaborative workshops
+        with domain experts in the room — but solo practitioners don't have a second pair of eyes.
+        Architectural decisions get deferred without rationale. Boundaries get drawn by convention
+        rather than analysis. There is no way to know when a domain model is complete. You just stop
+        when it "feels right."
+      </p>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        SDD replaces intuition with measurement. The gap report acts as your second pair of eyes — a
+        structured diagnostic that surfaces what confirmation bias, time pressure, and familiarity
+        would otherwise hide.
+      </p>
+
+      <h3 style="margin-top: var(--space-8);">How it works</h3>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        A domain specification iterates through passes. Each pass produces three artifacts: the
+        specification itself, a gap report, and a resolution log. The gap count must decrease across
+        passes. If it doesn't, the specification is diverging — and that non-convergence is the most
+        important signal the process can produce.
+      </p>
+      <div
+        style="margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);"
+      >
+        <div
+          class="card"
+          style="border-left: 3px solid var(--accent); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Pass 1 — Extraction</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Write the domain specification in DDD building blocks: bounded contexts, aggregates,
+            commands, events, invariants, policies, and a glossary of ubiquitous language. Don't aim
+            for perfection — the point is extraction. Run the gap report. Typical result:
+            <strong style="color: var(--text-primary);">15–35 gaps</strong> surface. Structural errors,
+            missing invariants, heuristic violations, undocumented decisions. Resolve each one with rationale.
+          </p>
+        </div>
+        <div
+          class="card"
+          style="border-left: 3px solid var(--accent); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Pass 2 — Resolution</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Update the specification with your resolutions and run the gap report again. This is
+            where real architectural decisions get made — boundary placements, aggregate
+            decompositions, scope tradeoffs. Typical result:
+            <strong style="color: var(--text-primary);">5–10 gaps</strong> remain. The hard questions
+            are now visible and documented.
+          </p>
+        </div>
+        <div
+          class="card"
+          style="border-left: 3px solid var(--accent); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Pass 3 — Convergence</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Final pass. Residual tradeoffs are resolved or consciously accepted. Deferred items get
+            explicit scope notes. Typical result:
+            <strong style="color: var(--text-primary);">0–3 gaps</strong>. When zero remain, every
+            question the model raised has been answered. The specification is
+            <strong style="color: var(--text-primary);">implementation-ready</strong>.
+          </p>
+        </div>
+      </div>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        Typical trajectory across 8 production domains:
+        <strong style="color: var(--text-primary);">18 → 5 → 0</strong> gaps across three passes. Pass
+        1 takes 2–4 hours, Pass 2 takes 1–2 hours, Pass 3 takes 30–60 minutes. Simple domains may converge
+        in two passes. Complex domains with regulatory concerns or event-sourced architectures may need
+        four or five.
+      </p>
+
+      <h3 style="margin-top: var(--space-8);">What it catches</h3>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        Every gap falls into one of four categories. Each category targets a different kind of
+        incompleteness in the domain specification.
+      </p>
+      <div
+        style="margin-top: var(--space-6); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);"
+      >
+        <div
+          class="card"
+          style="border-left: 3px solid var(--gap-error, #ef4444); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Structural Gaps (SG)</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Missing or malformed elements. Binary: the element exists or it doesn't. Aggregates
+            without invariants, commands without corresponding events, bounded contexts with no
+            declared relationships, projections consuming events from undeclared upstream contexts.
+          </p>
+        </div>
+        <div
+          class="card"
+          style="border-left: 3px solid var(--gap-warning, #f59e0b); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Heuristic Gaps (HG)</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Pattern violations with measurable thresholds from DDD literature. Aggregate command
+            density exceeding Vernon's 6-command threshold, missing sagas in multi-step
+            cross-aggregate processes, policies chained in sequence, contexts with too many
+            aggregates.
+          </p>
+        </div>
+        <div
+          class="card"
+          style="border-left: 3px solid var(--gap-language, #8b5cf6); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Language Gaps (LG)</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Ubiquitous language inconsistencies. The same term meaning different things in different
+            contexts without a declared homonym. Implicit concepts referenced in multiple places but
+            never formally named. Glossary entries missing for terms used in commands or events.
+          </p>
+        </div>
+        <div
+          class="card"
+          style="border-left: 3px solid var(--accent); padding: var(--space-4) var(--space-5);"
+        >
+          <p style="margin: 0;">
+            <strong style="color: var(--text-primary);">Decision Gaps (DG)</strong>
+          </p>
+          <p style="color: var(--text-secondary); margin: var(--space-2) 0 0 0; line-height: 1.7;">
+            Undocumented or deferred architectural choices. Bounded context boundaries drawable in
+            two reasonable ways with no documented rationale. Aggregate decompositions with
+            undocumented tradeoffs. Scope decisions that exist only in someone's head. "It seemed
+            right" is not a rationale.
+          </p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: var(--space-8);">Why this matters</h3>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        SDD replaces "this doesn't feel right" with specific, actionable gaps. The gap report is
+        your second pair of eyes — it surfaces what confirmation bias, time pressure, and domain
+        familiarity would otherwise hide. It works for
+        <strong style="color: var(--text-primary);">solo practitioners</strong> without requiring a team,
+        but scales to teams where the specification becomes a shared artifact for review.
+      </p>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        Every pass creates an artifact trail — specifications, gap reports, and resolution logs —
+        that captures not just what you decided but
+        <strong style="color: var(--text-primary);">why you decided it</strong>. Two weeks later,
+        when you've forgotten the reasoning behind a boundary placement, the resolution log
+        remembers.
+      </p>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        The templates are structured enough for
+        <strong style="color: var(--text-primary);">AI assistants</strong> to participate in gap identification
+        and resolution drafting. The architect retains decision authority — AI surfaces signals, the architect
+        investigates and decides. This was part of the original motivation: creating a methodology that
+        works with AI as a modeling partner, not a replacement.
+      </p>
+
       <div style="display: flex; gap: var(--space-4); margin-top: var(--space-8); flex-wrap: wrap;">
         <a href="/gap-categories" class="btn btn--secondary">Explore gap categories</a>
         <a href="#lineage" class="btn btn--secondary">See the DDD lineage</a>
