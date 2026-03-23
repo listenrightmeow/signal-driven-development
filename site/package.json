@@ -29,6 +29,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@fontsource/outfit": "^5.2.8",
     "@preact/preset-vite": "^2.10.5",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/preact": "^3.2.4",
