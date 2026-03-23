@@ -73,7 +73,7 @@ const AUTHORITIES = (() => {
 
 export default function LineageTimeline() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   const [filterAuthority, setFilterAuthority] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -352,14 +352,7 @@ export default function LineageTimeline() {
         .lineage__node:hover .lineage__hover-label {
           opacity: 1;
         }
-        .lineage__tooltip-group {
-          opacity: 0;
-          transition: opacity 150ms ease;
-          pointer-events: none;
-        }
-        .lineage__node:hover .lineage__tooltip-group {
-          opacity: 1;
-        }
+
 
         /* Authority filter dimming */
         .lineage__node--dimmed {
@@ -590,7 +583,7 @@ export default function LineageTimeline() {
       `}</style>
       <div className="lineage" ref={containerRef}>
         <div className="lineage__timeline" role="list" aria-label="DDD lineage timeline">
-          <svg viewBox="0 -50 1000 250" className="lineage__svg" focusable="false" role="img">
+          <svg viewBox="0 0 1000 200" className="lineage__svg" focusable="false" role="img">
             <title>DDD Lineage Timeline</title>
             <desc>
               Interactive timeline from 2003 to 2026 showing the intellectual lineage of
@@ -717,7 +710,7 @@ export default function LineageTimeline() {
               const color = TRACK_COLORS[entry.track] || 'var(--text-tertiary)';
               const surname = entry.authority.split(' ').pop() || entry.authority;
               const isDimmed = filterAuthority !== null && entry.authority !== filterAuthority;
-              const isHovered = hoveredIndex === i;
+
               const connectorLen = 170 - (y + 8);
 
               return (
@@ -728,8 +721,7 @@ export default function LineageTimeline() {
                   className={`lineage__node ${loaded ? 'lineage__node--loaded' : ''} ${isSelected ? 'lineage__node--selected' : ''} ${isDimmed ? 'lineage__node--dimmed' : ''}`}
                   onClick={(e: any) => handleNodeClick(e, i)}
                   onKeyDown={(e: any) => handleKeyDown(e, i)}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
+
                   style={{
                     cursor: 'pointer',
                     animationDelay: `${i * 80}ms`,
@@ -809,34 +801,6 @@ export default function LineageTimeline() {
                     {surname}
                   </text>
 
-                  {/* Tooltip — year + title on hover */}
-                  {isHovered && !isSelected && (
-                    <g className="lineage__tooltip-group" style={{ opacity: 1 }}>
-                      <rect
-                        x={x - 80}
-                        y={y - 46}
-                        width={160}
-                        height={22}
-                        rx={4}
-                        fill="var(--bg-secondary, #1a1a2e)"
-                        stroke="var(--border)"
-                        strokeWidth="0.5"
-                        opacity="0.95"
-                      />
-                      <text
-                        x={x}
-                        y={y - 31}
-                        textAnchor="middle"
-                        fill="var(--text-secondary)"
-                        fontSize="8"
-                        fontFamily="var(--font-mono)"
-                        style={{ pointerEvents: 'none', userSelect: 'none' }}
-                      >
-                        {entry.year} —{' '}
-                        {entry.title.length > 28 ? entry.title.slice(0, 26) + '…' : entry.title}
-                      </text>
-                    </g>
-                  )}
                 </g>
               );
             })}
