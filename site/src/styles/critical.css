@@ -282,6 +282,18 @@ a:hover {
   transform: translateY(-1px);
 }
 
+.card--flat {
+  background: color-mix(in srgb, var(--card-accent, var(--accent)) 5%, transparent);
+  border: none;
+  border-left: 3px solid var(--card-accent, var(--accent));
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.card--flat:hover {
+  border-color: var(--card-accent, var(--accent));
+  transform: none;
+}
+
 /* Code blocks */
 code {
   font-family: var(--font-mono);
