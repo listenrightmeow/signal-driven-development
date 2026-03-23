@@ -590,7 +590,7 @@ export default function LineageTimeline() {
       `}</style>
       <div className="lineage" ref={containerRef}>
         <div className="lineage__timeline" role="list" aria-label="DDD lineage timeline">
-          <svg viewBox="0 0 1000 200" className="lineage__svg" focusable="false" role="img">
+          <svg viewBox="0 -50 1000 250" className="lineage__svg" focusable="false" role="img">
             <title>DDD Lineage Timeline</title>
             <desc>
               Interactive timeline from 2003 to 2026 showing the intellectual lineage of
