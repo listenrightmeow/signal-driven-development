@@ -14,32 +14,60 @@ import lineageData from '../data/lineage.json';
     <div class="container">
       <h1>Standing on shoulders</h1>
       <p style="color: var(--text-secondary); max-width: 640px; margin-bottom: var(--space-8);">
-        SDD builds on two decades of DDD contributions. Every concept has a lineage.
-        Click any node to see what SDD inherits.
+        SDD builds on two decades of DDD contributions. Every concept has a lineage. Click any node
+        to see what SDD inherits.
       </p>
 
       <LineageTimeline client:visible />
 
       {/* Static fallback for no-JS */}
       <noscript>
-        <table class="lineage-fallback" style="width: 100%; border-collapse: collapse; margin-top: var(--space-8);">
+        <table
+          class="lineage-fallback"
+          style="width: 100%; border-collapse: collapse; margin-top: var(--space-8);"
+        >
           <thead>
             <tr>
-              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);">Year</th>
-              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);">Authority</th>
-              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);">Contribution</th>
-              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);">SDD Connection</th>
+              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);"
+                >Year</th
+              >
+              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);"
+                >Authority</th
+              >
+              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);"
+                >Contribution</th
+              >
+              <th style="text-align: left; padding: 8px; border-bottom: 1px solid var(--border);"
+                >SDD Connection</th
+              >
             </tr>
           </thead>
           <tbody>
-            {lineageData.map((entry: { year: number; authority: string; title: string; sddConnection: string }) => (
-              <tr>
-                <td style="padding: 8px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 13px;">{entry.year}</td>
-                <td style="padding: 8px; border-bottom: 1px solid var(--border);">{entry.authority}</td>
-                <td style="padding: 8px; border-bottom: 1px solid var(--border);">{entry.title}</td>
-                <td style="padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 13px;">{entry.sddConnection}</td>
-              </tr>
-            ))}
+            {
+              lineageData.map(
+                (entry: {
+                  year: number;
+                  authority: string;
+                  title: string;
+                  sddConnection: string;
+                }) => (
+                  <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 13px;">
+                      {entry.year}
+                    </td>
+                    <td style="padding: 8px; border-bottom: 1px solid var(--border);">
+                      {entry.authority}
+                    </td>
+                    <td style="padding: 8px; border-bottom: 1px solid var(--border);">
+                      {entry.title}
+                    </td>
+                    <td style="padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 13px;">
+                      {entry.sddConnection}
+                    </td>
+                  </tr>
+                ),
+              )
+            }
           </tbody>
         </table>
       </noscript>

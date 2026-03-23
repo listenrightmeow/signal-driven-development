@@ -32,18 +32,15 @@ export default function Walkthrough({ initialGapId }: { initialGapId?: string })
   const activePassData = data.passes.find((p) => p.number === state.activePass);
   const selectedGap = activePassData?.gaps.find((g) => g.id === state.selectedGapId);
 
-  const handleResolve = useCallback(
-    (gapId: string) => {
-      setState((prev) => {
-        const next = resolveGap(prev, gapId);
-        // Auto-select next unresolved gap
-        const passData = data.passes.find((p) => p.number === next.activePass);
-        const nextUnresolved = passData?.gaps.find((g) => !next.resolvedGapIds.has(g.id));
-        return nextUnresolved ? selectGap(next, nextUnresolved.id) : next;
-      });
-    },
-    [],
-  );
+  const handleResolve = useCallback((gapId: string) => {
+    setState((prev) => {
+      const next = resolveGap(prev, gapId);
+      // Auto-select next unresolved gap
+      const passData = data.passes.find((p) => p.number === next.activePass);
+      const nextUnresolved = passData?.gaps.find((g) => !next.resolvedGapIds.has(g.id));
+      return nextUnresolved ? selectGap(next, nextUnresolved.id) : next;
+    });
+  }, []);
 
   const handleAdvance = useCallback(() => {
     setState((prev) => advancePass(prev));
@@ -53,10 +50,13 @@ export default function Walkthrough({ initialGapId }: { initialGapId?: string })
     setState((prev) => selectGap(prev, gapId));
   }, []);
 
-  const handleSelectPass = useCallback((passNumber: number) => {
-    if (passNumber > state.activePass) return;
-    setState((prev) => ({ ...prev, activePass: passNumber, selectedGapId: null }));
-  }, [state.activePass]);
+  const handleSelectPass = useCallback(
+    (passNumber: number) => {
+      if (passNumber > state.activePass) return;
+      setState((prev) => ({ ...prev, activePass: passNumber, selectedGapId: null }));
+    },
+    [state.activePass],
+  );
 
   return (
     <div className="walkthrough">
@@ -129,12 +129,18 @@ export default function Walkthrough({ initialGapId }: { initialGapId?: string })
                   onClick={() => handleSelectGap(gap.id)}
                   aria-current={isSelected ? 'true' : undefined}
                 >
-                  <span className={`badge badge--${gap.severity === 'error' ? 'error' : 'warning'}`}>
+                  <span
+                    className={`badge badge--${gap.severity === 'error' ? 'error' : 'warning'}`}
+                  >
                     {gap.severity === 'error' ? 'Error' : 'Warning'}
                   </span>
                   <span className="walkthrough__gap-id">{gap.id}</span>
                   <span className="walkthrough__gap-title">{gap.title}</span>
-                  {isResolved && <span className="walkthrough__resolved-check" aria-label="Resolved">✓</span>}
+                  {isResolved && (
+                    <span className="walkthrough__resolved-check" aria-label="Resolved">
+                      ✓
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -149,9 +155,7 @@ export default function Walkthrough({ initialGapId }: { initialGapId?: string })
                 onResolve={handleResolve}
               />
             ) : (
-              <div className="walkthrough__detail-empty">
-                Select a gap to view its details.
-              </div>
+              <div className="walkthrough__detail-empty">Select a gap to view its details.</div>
             )}
           </div>
         </div>
@@ -230,17 +234,39 @@ function GapDetail({
 function ConvergenceState({ convergence }: { convergence: WalkthroughData['convergence'] }) {
   return (
     <div className="walkthrough__converged">
-      <div className="walkthrough__converged-icon" aria-hidden="true">●</div>
+      <div className="walkthrough__converged-icon" aria-hidden="true">
+        ●
+      </div>
       <h2>Converged. Zero unresolved gaps.</h2>
       <p>The domain model is implementation-ready.</p>
       <div className="walkthrough__growth">
         <h3>Model Growth</h3>
         <div className="walkthrough__growth-grid">
-          <GrowthStat label="Invariants" start={convergence.invariantGrowth.start} end={convergence.invariantGrowth.end} />
-          <GrowthStat label="Sagas" start={convergence.sagaGrowth.start} end={convergence.sagaGrowth.end} />
-          <GrowthStat label="Aggregates" start={convergence.aggregateGrowth.start} end={convergence.aggregateGrowth.end} />
-          <GrowthStat label="Commands" start={convergence.commandGrowth.start} end={convergence.commandGrowth.end} />
-          <GrowthStat label="Events" start={convergence.eventGrowth.start} end={convergence.eventGrowth.end} />
+          <GrowthStat
+            label="Invariants"
+            start={convergence.invariantGrowth.start}
+            end={convergence.invariantGrowth.end}
+          />
+          <GrowthStat
+            label="Sagas"
+            start={convergence.sagaGrowth.start}
+            end={convergence.sagaGrowth.end}
+          />
+          <GrowthStat
+            label="Aggregates"
+            start={convergence.aggregateGrowth.start}
+            end={convergence.aggregateGrowth.end}
+          />
+          <GrowthStat
+            label="Commands"
+            start={convergence.commandGrowth.start}
+            end={convergence.commandGrowth.end}
+          />
+          <GrowthStat
+            label="Events"
+            start={convergence.eventGrowth.start}
+            end={convergence.eventGrowth.end}
+          />
         </div>
       </div>
       <a href="/get-started" className="btn btn--primary">
@@ -253,7 +279,9 @@ function ConvergenceState({ convergence }: { convergence: WalkthroughData['conve
 function GrowthStat({ label, start, end }: { label: string; start: number; end: number }) {
   return (
     <div className="growth-stat">
-      <span className="growth-stat__value">{start} → {end}</span>
+      <span className="growth-stat__value">
+        {start} → {end}
+      </span>
       <span className="growth-stat__label">{label}</span>
     </div>
   );

@@ -15,16 +15,16 @@ interface TimelineEntry {
 const entries = lineageData as TimelineEntry[];
 
 const TRACK_COLORS = [
-  'var(--accent)',       // Evans
-  '#6366F1',            // Young
-  '#EC4899',            // Vernon
-  '#F97316',            // Brandolini
-  '#14B8A6',            // Tune
-  '#8B5CF6',            // Baas-Schwegler
-  '#EF4444',            // Khononov
-  '#EAB308',            // NDD
-  '#06B6D4',            // DDD Europe
-  'var(--gap-success)',  // SDD
+  'var(--accent)', // Evans
+  '#6366F1', // Young
+  '#EC4899', // Vernon
+  '#F97316', // Brandolini
+  '#14B8A6', // Tune
+  '#8B5CF6', // Baas-Schwegler
+  '#EF4444', // Khononov
+  '#EAB308', // NDD
+  '#06B6D4', // DDD Europe
+  'var(--gap-success)', // SDD
 ];
 
 export default function LineageTimeline() {
@@ -57,15 +57,11 @@ export default function LineageTimeline() {
   return (
     <div className="lineage" ref={containerRef}>
       <div className="lineage__timeline" role="list" aria-label="DDD lineage timeline">
-        <svg
-          viewBox="0 0 1000 200"
-          className="lineage__svg"
-          role="img"
-        >
+        <svg viewBox="0 0 1000 200" className="lineage__svg" role="img">
           <title>DDD Lineage Timeline</title>
           <desc>
-            Interactive timeline from 2003 to 2026 showing the intellectual lineage of
-            Domain-Driven Design and how Signal-Driven Development builds on each contribution.
+            Interactive timeline from 2003 to 2026 showing the intellectual lineage of Domain-Driven
+            Design and how Signal-Driven Development builds on each contribution.
           </desc>
 
           {/* Year axis */}
@@ -74,7 +70,14 @@ export default function LineageTimeline() {
             return (
               <g key={year}>
                 <line x1={x} y1={170} x2={x} y2={180} stroke="var(--border)" strokeWidth="1" />
-                <text x={x} y={195} textAnchor="middle" fill="var(--text-tertiary)" fontSize="11" fontFamily="var(--font-mono)">
+                <text
+                  x={x}
+                  y={195}
+                  textAnchor="middle"
+                  fill="var(--text-tertiary)"
+                  fontSize="11"
+                  fontFamily="var(--font-mono)"
+                >
                   {year}
                 </text>
               </g>
@@ -104,7 +107,15 @@ export default function LineageTimeline() {
                 aria-label={`${entry.year}: ${entry.title} by ${entry.authority}`}
               >
                 {/* Connector line to axis */}
-                <line x1={x} y1={y + 8} x2={x} y2={170} stroke={color} strokeWidth="1" opacity="0.3" />
+                <line
+                  x1={x}
+                  y1={y + 8}
+                  x2={x}
+                  y2={170}
+                  stroke={color}
+                  strokeWidth="1"
+                  opacity="0.3"
+                />
 
                 {/* Node circle */}
                 <circle

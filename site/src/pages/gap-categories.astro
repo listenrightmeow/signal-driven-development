@@ -7,7 +7,8 @@ const categories = [
     code: 'SG',
     name: 'Structural Gaps',
     color: 'var(--gap-error)',
-    description: 'Missing or malformed elements in the domain specification. Binary — the element exists or it does not.',
+    description:
+      'Missing or malformed elements in the domain specification. Binary — the element exists or it does not.',
     rule: 'Every DDD building block that is referenced must be fully defined. Every aggregate must protect at least one invariant. Every cross-context dependency must declare a relationship type.',
     checks: [
       'Aggregates that are data containers (many fields, no invariants)',
@@ -17,16 +18,32 @@ const categories = [
       'Missing entry paths described in requirements but absent from the specification',
     ],
     examples: [
-      { id: 'SG-01', desc: 'Aggregate with zero invariants — no consistency boundary to enforce', severity: 'ERROR', walkthroughId: 'SG-01' },
-      { id: 'SG-03', desc: 'Command sequence not enforced — implicit lifecycle', severity: 'ERROR', walkthroughId: 'SG-03' },
-      { id: 'SG-04', desc: 'No declared relationship between dependent contexts', severity: 'WARNING', walkthroughId: 'SG-04' },
+      {
+        id: 'SG-01',
+        desc: 'Aggregate with zero invariants — no consistency boundary to enforce',
+        severity: 'ERROR',
+        walkthroughId: 'SG-01',
+      },
+      {
+        id: 'SG-03',
+        desc: 'Command sequence not enforced — implicit lifecycle',
+        severity: 'ERROR',
+        walkthroughId: 'SG-03',
+      },
+      {
+        id: 'SG-04',
+        desc: 'No declared relationship between dependent contexts',
+        severity: 'WARNING',
+        walkthroughId: 'SG-04',
+      },
     ],
   },
   {
     code: 'HG',
     name: 'Heuristic Gaps',
     color: 'var(--gap-warning)',
-    description: 'Patterns that violate established DDD principles. Each has a measurable threshold sourced from the DDD literature.',
+    description:
+      'Patterns that violate established DDD principles. Each has a measurable threshold sourced from the DDD literature.',
     rule: 'Thresholds are defaults, not dogma. They are calibrated from published sources and production experience. Override with rationale when your domain justifies it.',
     checks: [
       'Aggregates doing too much (high command count, many responsibilities)',
@@ -35,9 +52,24 @@ const categories = [
       'Contexts with too many aggregates (sign of a missing context boundary)',
     ],
     examples: [
-      { id: 'HG-01', desc: 'Sequential command pipeline on aggregate — suggests saga pattern', severity: 'WARNING', walkthroughId: 'HG-01' },
-      { id: 'HG-04', desc: 'Zero sagas in a domain with multi-step processes', severity: 'WARNING', walkthroughId: 'HG-04' },
-      { id: 'HG-05', desc: 'Invoice aggregate with no payment lifecycle', severity: 'WARNING', walkthroughId: 'HG-05' },
+      {
+        id: 'HG-01',
+        desc: 'Sequential command pipeline on aggregate — suggests saga pattern',
+        severity: 'WARNING',
+        walkthroughId: 'HG-01',
+      },
+      {
+        id: 'HG-04',
+        desc: 'Zero sagas in a domain with multi-step processes',
+        severity: 'WARNING',
+        walkthroughId: 'HG-04',
+      },
+      {
+        id: 'HG-05',
+        desc: 'Invoice aggregate with no payment lifecycle',
+        severity: 'WARNING',
+        walkthroughId: 'HG-05',
+      },
     ],
   },
   {
@@ -53,26 +85,52 @@ const categories = [
       'Glossary gaps — terms used in commands/events but not formally defined',
     ],
     examples: [
-      { id: 'LG-01', desc: '"Visit" vs. "Appointment" — semantic overlap at context boundary', severity: 'WARNING', walkthroughId: 'LG-01' },
-      { id: 'LG-02', desc: '"Treatment" overloaded — means both single intervention and full episode', severity: 'WARNING', walkthroughId: 'LG-02' },
+      {
+        id: 'LG-01',
+        desc: '"Visit" vs. "Appointment" — semantic overlap at context boundary',
+        severity: 'WARNING',
+        walkthroughId: 'LG-01',
+      },
+      {
+        id: 'LG-02',
+        desc: '"Treatment" overloaded — means both single intervention and full episode',
+        severity: 'WARNING',
+        walkthroughId: 'LG-02',
+      },
     ],
   },
   {
     code: 'DG',
     name: 'Decision Gaps',
     color: 'var(--accent)',
-    description: 'Architectural decisions that have been deferred or made without documented rationale.',
+    description:
+      'Architectural decisions that have been deferred or made without documented rationale.',
     rule: 'Every boundary placement, aggregate decomposition, and relationship type must have a documented rationale. Deferred decisions must have an explicit scope note.',
     checks: [
       '"Where does X live?" questions with no clear answer',
       'Boundaries drawn by convention rather than analysis',
       'Pricing, scheduling, or access control models referenced but never defined',
-      'Scope assumptions that exist only in someone\'s head',
+      "Scope assumptions that exist only in someone's head",
     ],
     examples: [
-      { id: 'DG-01', desc: 'Missing domain concept — referenced in requirements but absent from specification', severity: 'ERROR', walkthroughId: 'DG-01' },
-      { id: 'DG-02', desc: 'Pricing model undefined — service exists but data model is missing', severity: 'ERROR', walkthroughId: 'DG-02' },
-      { id: 'DG-04', desc: 'Multi-pet scenarios not scoped — implicit assumptions', severity: 'WARNING', walkthroughId: 'DG-04' },
+      {
+        id: 'DG-01',
+        desc: 'Missing domain concept — referenced in requirements but absent from specification',
+        severity: 'ERROR',
+        walkthroughId: 'DG-01',
+      },
+      {
+        id: 'DG-02',
+        desc: 'Pricing model undefined — service exists but data model is missing',
+        severity: 'ERROR',
+        walkthroughId: 'DG-02',
+      },
+      {
+        id: 'DG-04',
+        desc: 'Multi-pet scenarios not scoped — implicit assumptions',
+        severity: 'WARNING',
+        walkthroughId: 'DG-04',
+      },
     ],
   },
 ];
@@ -88,76 +146,91 @@ const categories = [
     <div class="container">
       <h1>Four categories of gaps</h1>
       <p style="color: var(--text-secondary); max-width: 640px; margin-bottom: var(--space-12);">
-        Every gap report evaluates a domain specification against four diagnostic categories.
-        Each gap is a signal — not a verdict. The architect reads, investigates, and resolves.
+        Every gap report evaluates a domain specification against four diagnostic categories. Each
+        gap is a signal — not a verdict. The architect reads, investigates, and resolves.
       </p>
 
       {/* Category cards grid */}
       <div class="categories-grid">
-        {categories.map((cat) => (
-          <div class="card category-card" id={`cat-${cat.code.toLowerCase()}`}>
-            <div class="category-card__border" style={`background: ${cat.color}`} />
-            <span class="category-card__code" style={`color: ${cat.color}`}>{cat.code}</span>
-            <h2 class="category-card__name">{cat.name}</h2>
-            <p class="category-card__desc">{cat.description}</p>
+        {
+          categories.map((cat) => (
+            <div class="card category-card" id={`cat-${cat.code.toLowerCase()}`}>
+              <div class="category-card__border" style={`background: ${cat.color}`} />
+              <span class="category-card__code" style={`color: ${cat.color}`}>
+                {cat.code}
+              </span>
+              <h2 class="category-card__name">{cat.name}</h2>
+              <p class="category-card__desc">{cat.description}</p>
 
-            <div class="category-card__detail">
-              <h3>Rule</h3>
-              <blockquote class="gap-detail__rule">{cat.rule}</blockquote>
+              <div class="category-card__detail">
+                <h3>Rule</h3>
+                <blockquote class="gap-detail__rule">{cat.rule}</blockquote>
 
-              <h3>What to look for</h3>
-              <ul class="category-card__checks">
-                {cat.checks.map((check) => (
-                  <li>{check}</li>
-                ))}
-              </ul>
+                <h3>What to look for</h3>
+                <ul class="category-card__checks">
+                  {cat.checks.map((check) => (
+                    <li>{check}</li>
+                  ))}
+                </ul>
 
-              {cat.code === 'HG' && (
-                <div class="category-card__thresholds">
-                  <h3>Heuristic Thresholds</h3>
-                  <table class="threshold-table">
-                    <thead>
-                      <tr>
-                        <th>Heuristic</th>
-                        <th>Default</th>
-                        <th>Source</th>
-                        <th>What it means</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {thresholds.map((t: { heuristic: string; threshold: string; source: string; meaning: string }) => (
+                {cat.code === 'HG' && (
+                  <div class="category-card__thresholds">
+                    <h3>Heuristic Thresholds</h3>
+                    <table class="threshold-table">
+                      <thead>
                         <tr>
-                          <td>{t.heuristic}</td>
-                          <td><code>{t.threshold}</code></td>
-                          <td>{t.source}</td>
-                          <td>{t.meaning}</td>
+                          <th>Heuristic</th>
+                          <th>Default</th>
+                          <th>Source</th>
+                          <th>What it means</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              <h3>Examples from the veterinary clinic</h3>
-              <div class="category-card__examples">
-                {cat.examples.map((ex) => (
-                  <div class="example-item">
-                    <div class="example-item__header">
-                      <span class={`badge badge--${ex.severity === 'ERROR' ? 'error' : 'warning'}`}>
-                        {ex.severity}
-                      </span>
-                      <code class="example-item__id">{ex.id}</code>
-                    </div>
-                    <p>{ex.desc}</p>
-                    <a href={`/walkthrough?gap=${ex.walkthroughId}`} class="example-item__link">
-                      See this in the walkthrough →
-                    </a>
+                      </thead>
+                      <tbody>
+                        {thresholds.map(
+                          (t: {
+                            heuristic: string;
+                            threshold: string;
+                            source: string;
+                            meaning: string;
+                          }) => (
+                            <tr>
+                              <td>{t.heuristic}</td>
+                              <td>
+                                <code>{t.threshold}</code>
+                              </td>
+                              <td>{t.source}</td>
+                              <td>{t.meaning}</td>
+                            </tr>
+                          ),
+                        )}
+                      </tbody>
+                    </table>
                   </div>
-                ))}
+                )}
+
+                <h3>Examples from the veterinary clinic</h3>
+                <div class="category-card__examples">
+                  {cat.examples.map((ex) => (
+                    <div class="example-item">
+                      <div class="example-item__header">
+                        <span
+                          class={`badge badge--${ex.severity === 'ERROR' ? 'error' : 'warning'}`}
+                        >
+                          {ex.severity}
+                        </span>
+                        <code class="example-item__id">{ex.id}</code>
+                      </div>
+                      <p>{ex.desc}</p>
+                      <a href={`/walkthrough?gap=${ex.walkthroughId}`} class="example-item__link">
+                        See this in the walkthrough →
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </section>

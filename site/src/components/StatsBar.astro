@@ -7,10 +7,12 @@ const stats = [
 ---
 
 <div class="stats">
-  {stats.map(({ value, label }) => (
-    <div class="stat">
-      <span class="stat__value">{value}</span>
-      <span class="stat__label">{label}</span>
-    </div>
-  ))}
+  {
+    stats.map(({ value, label }) => (
+      <div class="stat">
+        <span class="stat__value">{value}</span>
+        <span class="stat__label">{label}</span>
+      </div>
+    ))
+  }
 </div>

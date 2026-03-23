@@ -10,13 +10,17 @@ import StatsBar from '../components/StatsBar.astro';
   canonicalPath="/"
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Signal-Driven Development",
-      "url": "https://signal-driven-development.vercel.app",
-      "description": "A rigorous, solo-practitioner methodology for Domain-Driven Design with zero unresolved gaps as the definition of done."
-    })} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Signal-Driven Development',
+        url: 'https://signal-driven-development.vercel.app',
+        description:
+          'A rigorous, solo-practitioner methodology for Domain-Driven Design with zero unresolved gaps as the definition of done.',
+      })}
+    />
   </Fragment>
 
   <Hero />
@@ -28,13 +32,14 @@ import StatsBar from '../components/StatsBar.astro';
       <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
         SDD is a solo-practitioner methodology for Domain-Driven Design. It introduces
         <strong style="color: var(--text-primary);">gap reports</strong> — structured diagnostic signals
-        that measure the completeness and consistency of a domain specification.
-        The definition of done is simple: <strong style="color: var(--text-primary);">zero unresolved gaps</strong>.
+        that measure the completeness and consistency of a domain specification. The definition of done
+        is simple: <strong style="color: var(--text-primary);">zero unresolved gaps</strong>.
       </p>
       <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
         A domain specification iterates through passes. Each pass runs a gap report that identifies
-        structural, heuristic, language, and decision gaps. The architect resolves each gap.
-        Typical trajectory: <strong style="color: var(--text-primary);">18 → 5 → 0</strong> gaps across three passes.
+        structural, heuristic, language, and decision gaps. The architect resolves each gap. Typical
+        trajectory: <strong style="color: var(--text-primary);">18 → 5 → 0</strong> gaps across three
+        passes.
       </p>
       <div style="display: flex; gap: var(--space-4); margin-top: var(--space-8); flex-wrap: wrap;">
         <a href="/gap-categories" class="btn btn--secondary">Explore gap categories</a>
