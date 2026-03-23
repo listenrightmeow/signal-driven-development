@@ -9,7 +9,8 @@
     "sourceUrl": "https://www.domainlanguage.com/ddd/",
     "sourceType": "book",
     "concepts": ["bounded contexts", "aggregates", "ubiquitous language", "entities"],
-    "track": 0
+    "track": 0,
+    "influences": [2, 3, 4]
   },
   {
     "year": 2006,
@@ -21,7 +22,8 @@
     "sourceUrl": "https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf",
     "sourceType": "pattern",
     "concepts": ["CQRS", "event sourcing", "command-query separation"],
-    "track": 1
+    "track": 1,
+    "influences": [3]
   },
   {
     "year": 2013,
@@ -33,7 +35,8 @@
     "sourceUrl": "https://www.informit.com/store/implementing-domain-driven-design-9780321834577",
     "sourceType": "book",
     "concepts": ["small aggregates", "command density", "consistency boundaries"],
-    "track": 2
+    "track": 2,
+    "influences": [10]
   },
   {
     "year": 2013,
@@ -45,7 +48,8 @@
     "sourceUrl": "https://www.eventstorming.com/",
     "sourceType": "workshop",
     "concepts": ["domain events", "sticky notes", "collaborative discovery"],
-    "track": 3
+    "track": 3,
+    "influences": [4, 8]
   },
   {
     "year": 2015,
@@ -57,7 +61,8 @@
     "sourceUrl": "https://github.com/ddd-crew/bounded-context-canvas",
     "sourceType": "tool",
     "concepts": ["context boundaries", "strategic design", "structured templates"],
-    "track": 4
+    "track": 4,
+    "influences": []
   },
   {
     "year": 2018,
@@ -69,7 +74,8 @@
     "sourceUrl": "https://www.youtube.com/watch?v=R2IAgnpkBck",
     "sourceType": "talk",
     "concepts": ["DDD evolution", "open problems", "definition of done"],
-    "track": 0
+    "track": 0,
+    "influences": [14]
   },
   {
     "year": 2019,
@@ -81,7 +87,8 @@
     "sourceUrl": "https://baasie.com/",
     "sourceType": "methodology",
     "concepts": ["cognitive bias", "collaborative modeling", "design heuristics"],
-    "track": 5
+    "track": 5,
+    "influences": []
   },
   {
     "year": 2021,
@@ -93,7 +100,8 @@
     "sourceUrl": "https://www.oreilly.com/library/view/learning-domain-driven-design/9781098100124/",
     "sourceType": "book",
     "concepts": ["DDD pedagogy", "tactical patterns", "strategic patterns"],
-    "track": 6
+    "track": 6,
+    "influences": []
   },
   {
     "year": 2023,
@@ -105,7 +113,8 @@
     "sourceUrl": "https://narrativedriven.org/",
     "sourceType": "methodology",
     "concepts": ["moments", "executable specs", "early gap detection"],
-    "track": 7
+    "track": 7,
+    "influences": []
   },
   {
     "year": 2024,
@@ -117,7 +126,8 @@
     "sourceUrl": "https://www.youtube.com/watch?v=mpABOfGBfPI",
     "sourceType": "talk",
     "concepts": ["LLMs", "AI-assisted modeling", "independent convergence"],
-    "track": 0
+    "track": 0,
+    "influences": [14]
   },
   {
     "year": 2024,
@@ -129,7 +139,8 @@
     "sourceUrl": "https://www.oreilly.com/library/view/balancing-coupling-in/9780137353514/",
     "sourceType": "book",
     "concepts": ["coupling metrics", "thresholds", "measurable heuristics"],
-    "track": 6
+    "track": 6,
+    "influences": []
   },
   {
     "year": 2024,
@@ -141,7 +152,8 @@
     "sourceUrl": "https://www.youtube.com/watch?v=mpABOfGBfPI",
     "sourceType": "talk",
     "concepts": ["anti-corruption layers", "deterministic systems", "AI boundaries"],
-    "track": 0
+    "track": 0,
+    "influences": [14]
   },
   {
     "year": 2026,
@@ -153,7 +165,8 @@
     "sourceUrl": "https://dddeurope.com/",
     "sourceType": "talk",
     "concepts": ["context mapping", "AI integration", "translation layers"],
-    "track": 0
+    "track": 0,
+    "influences": []
   },
   {
     "year": 2026,
@@ -165,7 +178,8 @@
     "sourceUrl": "https://dddeurope.com/",
     "sourceType": "workshop",
     "concepts": ["LLM integration", "strategic design", "community adoption"],
-    "track": 8
+    "track": 8,
+    "influences": []
   },
   {
     "year": 2026,
@@ -177,6 +191,7 @@
     "sourceUrl": "https://github.com/listenrightmeow/signal-driven-development",
     "sourceType": "methodology",
     "concepts": ["three-pass convergence", "gap reports", "definition of done"],
-    "track": 9
+    "track": 9,
+    "influences": []
   }
 ]
