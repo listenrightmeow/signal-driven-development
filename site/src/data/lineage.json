@@ -96,15 +96,15 @@
     "track": 6
   },
   {
-    "year": 2022,
-    "authority": "NDD / Xolvio",
+    "year": 2023,
+    "authority": "OnAuto",
     "initials": "NDD",
     "title": "Narrative-Driven Development",
-    "description": "Xolvio introduced Narrative-Driven Development and the temporal vocabulary — the moment primitive and temporal scope for domain events. NDD argued that domain events aren't just things that happened; they have temporal structure, lifecycle phases, and narrative arcs that traditional modeling ignores.",
-    "sddConnection": "SDD inherits the moment primitive and temporal scope from NDD's vocabulary. Domain events in an SDD specification carry temporal metadata — when they can occur, how long they're valid, and what lifecycle phase they belong to. NDD's insight that events have narrative structure directly shaped how SDD models event lifecycles.",
-    "sourceUrl": "https://www.youtube.com/watch?v=PMOakdbipOg",
+    "description": "OnAuto introduced Narrative-Driven Development — a spec dialect that unifies storyboard, documentation, code, and tests into one executable model. NDD draws from BDD, EventStorming, DDD, story mapping, and storyboarding, synthesizing them into a single system where moments (narrative beats) carry commands, events, queries, and experiences. Missing logic surfaces before code exists because every visible state traces back to explicit behavior.",
+    "sddConnection": "NDD's emphasis on early gap detection — surfacing missing logic before implementation — parallels SDD's gap reports. Both methodologies share the conviction that structural completeness should be verifiable from the specification alone, not discovered during implementation.",
+    "sourceUrl": "https://narrativedriven.org/",
     "sourceType": "methodology",
-    "concepts": ["moment primitive", "temporal scope", "event lifecycle"],
+    "concepts": ["moments", "executable specs", "early gap detection"],
     "track": 7
   },
   {
