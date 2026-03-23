@@ -1,12 +1,6 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="site/public/img/sdd-wordmark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="site/public/img/sdd-wordmark-dark.svg">
-    <img alt="SDD — Signal-Driven Development" src="site/public/img/sdd-wordmark-dark.svg" width="200">
-  </picture>
-</p>
+# Signal-Driven Development (SDD)
 
-<h1 align="center">Signal-Driven Development</h1>
+![SDD — Signal-Driven Development](site/public/img/sdd-wordmark-dark.svg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Methodology Version](https://img.shields.io/badge/methodology-v1.0.0-green.svg)](CHANGELOG.md)
