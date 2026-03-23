@@ -1,7 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
-import StatsBar from '../components/StatsBar.astro';
 import LineageTimeline from '../components/LineageTimeline';
 ---
 
@@ -24,8 +22,28 @@ import LineageTimeline from '../components/LineageTimeline';
     />
   </Fragment>
 
-  <Hero />
-  <StatsBar />
+  <section class="hero">
+    <span class="badge badge--accent">Signal-Driven Development</span>
+    <h1 class="hero__headline">DDD's missing definition of done.</h1>
+    <p class="hero__subline">
+      Three-pass convergence. Gap reports as diagnostic signals. Zero unresolved gaps.
+    </p>
+    <div class="hero__actions">
+      <a href="/walkthrough" class="btn btn--primary">Try the interactive walkthrough</a>
+      <a href="#methodology" class="btn btn--secondary">View the methodology</a>
+    </div>
+  </section>
+
+  <section id="lineage" class="section">
+    <div class="container">
+      <h2>Standing on shoulders</h2>
+      <p style="color: var(--text-secondary); max-width: 640px; margin-bottom: var(--space-8);">
+        SDD builds on two decades of DDD contributions. Every concept has a lineage. Click any node
+        to see what SDD inherits.
+      </p>
+      <LineageTimeline client:visible />
+    </div>
+  </section>
 
   <section id="methodology" class="section">
     <div class="container" style="max-width: 720px; margin: 0 auto;">
@@ -216,17 +234,6 @@ import LineageTimeline from '../components/LineageTimeline';
         <a href="#lineage" class="btn btn--secondary">See the DDD lineage</a>
         <a href="/get-started" class="btn btn--secondary">Get started</a>
       </div>
-    </div>
-  </section>
-
-  <section id="lineage" class="section">
-    <div class="container">
-      <h2>Standing on shoulders</h2>
-      <p style="color: var(--text-secondary); max-width: 640px; margin-bottom: var(--space-8);">
-        SDD builds on two decades of DDD contributions. Every concept has a lineage. Click any node
-        to see what SDD inherits.
-      </p>
-      <LineageTimeline client:visible />
     </div>
   </section>
 </Base>
