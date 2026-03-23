@@ -1,0 +1,281 @@
+---
+import Base from '../layouts/Base.astro';
+
+const blogPosts = [
+  {
+    num: 1,
+    title: 'DDD Has a Solo Builder Problem',
+    url: 'https://listenrightmeow.hashnode.dev/ddd-has-a-solo-builder-problem-and-nobody-talks-about-it',
+  },
+  {
+    num: 2,
+    title: "Knowledge Crunching Doesn't Need a Room",
+    url: 'https://listenrightmeow.hashnode.dev/knowledge-crunching-doesnt-need-a-room',
+  },
+  {
+    num: 3,
+    title: 'The Reactive Path Has No Vocabulary',
+    url: 'https://listenrightmeow.hashnode.dev/the-reactive-path-has-no-vocabulary',
+  },
+  {
+    num: 4,
+    title: 'Introducing Signal-Driven Development',
+    url: 'https://listenrightmeow.hashnode.dev/introducing-signal-driven-development',
+  },
+  {
+    num: 5,
+    title: "The Gap Report: DDD's Missing Feedback Loop",
+    url: 'https://listenrightmeow.hashnode.dev/the-gap-report-ddds-missing-feedback-loop',
+  },
+  {
+    num: 6,
+    title: 'The Candidate Lifecycle',
+    url: 'https://listenrightmeow.hashnode.dev/the-candidate-lifecycle-when-ai-models-your-domain-who-confirms-it',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is SDD only for DDD?',
+    a: 'Yes, the templates use DDD building blocks — aggregates, bounded contexts, events, commands, invariants. SDD is a DDD methodology.',
+  },
+  {
+    q: 'Does it require a team?',
+    a: "No. SDD is designed for solo practitioners. One architect, one specification, one gap report. Teams can use it too, but it doesn't require collaboration.",
+  },
+  {
+    q: 'How long does a pass take?',
+    a: 'Pass 1: 2–4 hours. Pass 2: 1–2 hours. Pass 3: 30–60 minutes. Total for a moderately complex domain: a single focused day.',
+  },
+  {
+    q: 'Can I use it with AI assistants?',
+    a: 'Yes. The structured templates work well with AI for gap identification. The architect retains decision authority — AI proposes, you dispose.',
+  },
+  {
+    q: 'What if my domain needs more than 3 passes?',
+    a: "That's fine. The three-pass label is the typical trajectory, not a constraint. The invariant is convergence: gap count must decrease across passes.",
+  },
+];
+---
+
+<Base
+  title="Get Started with SDD | Signal-Driven Development"
+  description="Three paths to start with Signal-Driven Development: run your first pass, study the worked example, or read the blog series."
+  ogImage="/img/og/get-started.png"
+  canonicalPath="/get-started"
+>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: 'Get Started with Signal-Driven Development',
+        description: 'Run your first gap report pass on your own domain.',
+        step: [
+          {
+            '@type': 'HowToStep',
+            name: 'Clone the repo',
+            text: 'git clone https://github.com/listenrightmeow/signal-driven-development.git',
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Run the init script',
+            text: "./scripts/init-domain.sh 'My Project' 1",
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Write your domain specification',
+            text: 'Fill in the domain-specification.md template with your domain model.',
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Run the gap report',
+            text: 'Evaluate your specification against the gap categories and fill in gap-report.md.',
+          },
+        ],
+      })}
+    />
+  </Fragment>
+
+  <section class="section">
+    <div class="container" style="max-width: 800px; margin: 0 auto;">
+      <h1>Get started</h1>
+      <p style="color: var(--text-secondary); margin-bottom: var(--space-12);">
+        Three paths depending on where you are.
+      </p>
+
+      {/* Path 1: Try it now */}
+      <div class="card" style="margin-bottom: var(--space-6);">
+        <h2>I want to try it now</h2>
+        <p style="color: var(--text-secondary); margin: var(--space-2) 0 var(--space-4);">
+          Clone the repo and scaffold your first pass in 30 seconds.
+        </p>
+        <div class="terminal">
+          <div class="terminal__header">
+            <span class="terminal__dot" style="background: #EF4444;"></span>
+            <span class="terminal__dot" style="background: #EAB308;"></span>
+            <span class="terminal__dot" style="background: #22C55E;"></span>
+          </div>
+          <pre
+            class="terminal__body"><code><span class="terminal__prompt">$</span> ./scripts/init-domain.sh "Greenfield Clinic" 1
+
+Created: greenfield-clinic/
+  ├── pass-1/
+  │   ├── domain-specification.md
+  │   ├── gap-report.md
+  │   └── gap-resolution-log.md
+  └── architecture-palette.md
+
+Ready. Write your domain specification, then run the gap report.</code></pre>
+        </div>
+        <a
+          href="https://github.com/listenrightmeow/signal-driven-development"
+          class="btn btn--primary"
+          style="margin-top: var(--space-4);"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on GitHub
+        </a>
+      </div>
+
+      {/* Path 2: Study first */}
+      <div class="card" style="margin-bottom: var(--space-6);">
+        <h2>I want to study first</h2>
+        <p style="color: var(--text-secondary); margin: var(--space-2) 0 var(--space-4);">
+          Walk through the veterinary clinic example — three passes, 23 gaps, full resolution
+          rationale.
+        </p>
+        <a href="/walkthrough" class="btn btn--secondary">Try the interactive walkthrough</a>
+        <a
+          href="https://github.com/listenrightmeow/signal-driven-development/tree/main/examples/veterinary-clinic"
+          class="btn btn--secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="margin-left: var(--space-2);"
+        >
+          View the raw example
+        </a>
+      </div>
+
+      {/* Path 3: Understand the methodology */}
+      <div class="card" style="margin-bottom: var(--space-12);">
+        <h2>I want to understand the methodology</h2>
+        <p style="color: var(--text-secondary); margin: var(--space-2) 0 var(--space-4);">
+          The blog series covers the problem, the thinking, and the solution.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          {
+            blogPosts.map((post) => (
+              <a
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: var(--text-secondary); font-size: var(--text-sm);"
+              >
+                <span style="font-family: var(--font-mono); color: var(--text-tertiary); margin-right: var(--space-2);">
+                  Post {post.num}
+                </span>
+                {post.title}
+              </a>
+            ))
+          }
+        </div>
+        <a
+          href="https://listenrightmeow.hashnode.dev/series/solo-ddd"
+          class="btn btn--secondary"
+          style="margin-top: var(--space-4);"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read the full series
+        </a>
+      </div>
+
+      {/* FAQ */}
+      <h2 style="margin-bottom: var(--space-6);">Frequently asked questions</h2>
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        {
+          faqs.map(({ q, a }) => (
+            <details class="faq-item">
+              <summary class="faq-item__question">{q}</summary>
+              <p class="faq-item__answer">{a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .terminal {
+    background: #0d0f12;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .terminal__header {
+    display: flex;
+    gap: 6px;
+    padding: var(--space-3) var(--space-4);
+    background: #141720;
+  }
+
+  .terminal__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .terminal__body {
+    padding: var(--space-4);
+    margin: 0;
+    background: transparent;
+    border: none;
+    color: #f0f2f5;
+    font-size: var(--text-sm);
+  }
+
+  .terminal__prompt {
+    color: var(--gap-success);
+    font-weight: 600;
+  }
+
+  .faq-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+
+  .faq-item__question {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-primary);
+    list-style: none;
+  }
+
+  .faq-item__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item__question::before {
+    content: '+ ';
+    font-family: var(--font-mono);
+    color: var(--text-tertiary);
+  }
+
+  .faq-item[open] .faq-item__question::before {
+    content: '– ';
+  }
+
+  .faq-item__answer {
+    color: var(--text-secondary);
+    margin-top: var(--space-3);
+    line-height: 1.7;
+    font-size: var(--text-sm);
+  }
+</style>

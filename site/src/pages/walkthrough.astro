@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import Walkthrough from '../components/Walkthrough';
+
+const initialGapId = Astro.url.searchParams.get('gap') || undefined;
+---
+
+<Base
+  title="Interactive Gap Report Walkthrough | Signal-Driven Development"
+  description="Walk through a real three-pass convergence. Resolve 23 gaps across structural, heuristic, language, and decision categories. Experience DDD's missing feedback loop."
+  ogImage="/img/og/walkthrough.png"
+  canonicalPath="/walkthrough"
+>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
+        name: 'Three-Pass Domain Model Convergence',
+        description:
+          'Iteratively refine a domain specification through gap reports until zero gaps remain.',
+        step: [
+          {
+            '@type': 'HowToStep',
+            name: 'Pass 1',
+            text: 'Run initial gap report. Expect 15-35 gaps. Resolve all gaps.',
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Pass 2',
+            text: 'Run second gap report. Expect 5-10 new gaps from resolutions. Resolve all.',
+          },
+          {
+            '@type': 'HowToStep',
+            name: 'Pass 3',
+            text: 'Run final gap report. Expect 0-3 gaps. Model is converged.',
+          },
+        ],
+      })}
+    />
+    <link
+      rel="preload"
+      href="/styles/walkthrough.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript><link rel="stylesheet" href="/styles/walkthrough.css" /></noscript>
+  </Fragment>
+
+  <section class="section">
+    <div class="container">
+      <h1>Walk through a real convergence</h1>
+      <p class="hero__subline" style="margin-bottom: var(--space-8); text-align: left;">
+        The veterinary clinic domain. Three passes. 23 gaps identified and resolved. Experience the
+        gap report — DDD's missing feedback loop.
+      </p>
+    </div>
+    <Walkthrough client:load initialGapId={initialGapId} />
+  </section>
+</Base>

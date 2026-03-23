@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import StatsBar from '../components/StatsBar.astro';
+---
+
+<Base
+  title="Signal-Driven Development | DDD's Missing Definition of Done"
+  description="Three-pass convergence. Gap reports as diagnostic signals. Zero unresolved gaps. A rigorous definition of done for Domain-Driven Design."
+  canonicalPath="/"
+>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Signal-Driven Development',
+        url: 'https://signal-driven-development.vercel.app',
+        description:
+          'A rigorous, solo-practitioner methodology for Domain-Driven Design with zero unresolved gaps as the definition of done.',
+      })}
+    />
+  </Fragment>
+
+  <Hero />
+  <StatsBar />
+
+  <section id="methodology" class="section">
+    <div class="container" style="max-width: 720px; margin: 0 auto;">
+      <h2>What is Signal-Driven Development?</h2>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        SDD is a solo-practitioner methodology for Domain-Driven Design. It introduces
+        <strong style="color: var(--text-primary);">gap reports</strong> — structured diagnostic signals
+        that measure the completeness and consistency of a domain specification. The definition of done
+        is simple: <strong style="color: var(--text-primary);">zero unresolved gaps</strong>.
+      </p>
+      <p style="color: var(--text-secondary); margin-top: var(--space-4); line-height: 1.8;">
+        A domain specification iterates through passes. Each pass runs a gap report that identifies
+        structural, heuristic, language, and decision gaps. The architect resolves each gap. Typical
+        trajectory: <strong style="color: var(--text-primary);">18 → 5 → 0</strong> gaps across three
+        passes.
+      </p>
+      <div style="display: flex; gap: var(--space-4); margin-top: var(--space-8); flex-wrap: wrap;">
+        <a href="/gap-categories" class="btn btn--secondary">Explore gap categories</a>
+        <a href="/lineage" class="btn btn--secondary">See the DDD lineage</a>
+        <a href="/get-started" class="btn btn--secondary">Get started</a>
+      </div>
+    </div>
+  </section>
+</Base>

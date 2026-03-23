@@ -1,0 +1,75 @@
+---
+import Nav from '../components/Nav.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/img/og/home.png',
+  canonicalPath = '',
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = 'https://signal-driven-development.vercel.app';
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:url" content={canonicalUrl} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#3B82F6" />
+
+    <!-- Inlined critical CSS -->
+    <style>
+      @import '../styles/tokens.css';
+      @import '../styles/critical.css';
+    </style>
+
+    <!-- Structured data slot -->
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-nav" href="#main-content">Skip to main content</a>
+    <Nav />
+    <main id="main-content">
+      <slot />
+    </main>
+  </body>
+</html>
