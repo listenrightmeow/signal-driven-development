@@ -1,7 +1,9 @@
-# Signal-Driven Development (SDD)
+# [Signal-Driven Development (SDD)](https://signal-driven-development.vercel.app/)
 
 <p align="center">
-  <img alt="SDD — Signal-Driven Development" src="site/public/img/sdd-wordmark-dark.svg" width="120">
+  <a href="https://signal-driven-development.vercel.app/" target="_blank">
+    <img alt="SDD — Signal-Driven Development" src="site/public/img/sdd-wordmark-dark.svg" width="120">
+  </a>
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
