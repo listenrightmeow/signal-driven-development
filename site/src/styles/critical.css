@@ -378,6 +378,24 @@ pre {
   margin-top: var(--space-4);
 }
 
+.hero__cta-secondary {
+  display: flex;
+  justify-content: center;
+}
+
+.btn--ghost-accent {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  opacity: 0.85;
+}
+
+.btn--ghost-accent:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: var(--accent);
+  opacity: 1;
+}
+
 /* Stats bar */
 .stats {
   display: flex;
