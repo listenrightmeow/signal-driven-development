@@ -378,6 +378,11 @@ pre {
   margin-top: var(--space-4);
 }
 
+.hero__cta-secondary {
+  display: flex;
+  justify-content: center;
+}
+
 /* Stats bar */
 .stats {
   display: flex;
