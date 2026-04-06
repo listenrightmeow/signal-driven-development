@@ -48,22 +48,10 @@ Some domains require 4--5 passes. The invariant is convergence: each pass must r
 - [[Quick Start Guide]] -- Get started with SDD in five steps
 - [[Scaffolding Script]] -- Automate domain analysis setup with `init-domain.sh`
 
-### Website
+### Community
 
-- [[Website Architecture]] -- Astro static site with Preact islands
-- [[Website Components]] -- Interactive components (Walkthrough, LineageTimeline)
-- [[Website Performance]] -- Critical CSS, font loading, image optimization
-- [[Website Design System]] -- Design tokens, dark/light theming
-- [[Website SEO]] -- Semantic HTML, structured data, target keywords
-
-### Development
-
-- [[CI/CD Pipeline]] -- GitHub Actions workflows (lint, test, build)
-- [[Testing Strategy]] -- Unit, integration, and accessibility tests
 - [[Contributing]] -- How to contribute worked examples and improvements
 - [[Changelog]] -- Methodology version history
-
-### Community
 
 - [[Lineage]] -- DDD community lineage and influences
 - [[Blog Series]] -- Companion blog posts on Hashnode
