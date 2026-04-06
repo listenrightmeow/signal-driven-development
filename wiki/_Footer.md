@@ -1,0 +1,1 @@
+[Signal-Driven Development](https://signal-driven-development.vercel.app/) | [GitHub Repository](https://github.com/listenrightmeow/signal-driven-development) | [MIT License](https://github.com/listenrightmeow/signal-driven-development/blob/main/LICENSE) | Methodology v1.0.0
