@@ -36,6 +36,7 @@ The gap resolution log documents how each gap was resolved. It captures the rati
 ```
 
 Examples of structural impact:
+
 - `+1 invariant on Appointment aggregate`
 - `Aggregate dissolved — demoted to domain service`
 - `New saga introduced: VisitLifecycleSaga`
@@ -64,6 +65,7 @@ Follow-ups are items discovered during resolution that don't belong in this pass
 The gap recommendation is adopted. The domain specification is changed accordingly.
 
 **When to accept:**
+
 - The gap identifies a genuine structural deficiency
 - The recommendation aligns with domain understanding
 - The fix is straightforward and doesn't introduce new complexity
@@ -73,6 +75,7 @@ The gap recommendation is adopted. The domain specification is changed according
 The recommendation is correct in principle but needs adjustment in execution.
 
 **When to modify:**
+
 - The gap is real but the suggested fix doesn't quite fit the domain
 - A simpler change achieves the same goal
 - The recommendation needs to account for constraints not visible in the specification
@@ -82,6 +85,7 @@ The recommendation is correct in principle but needs adjustment in execution.
 The current design is intentional. The rationale for rejection is documented.
 
 **When to reject:**
+
 - The gap flags a pattern that is intentional in this domain
 - The heuristic threshold doesn't apply to this specific context
 - The cost of change outweighs the benefit, with documented reasoning
@@ -93,10 +97,12 @@ The current design is intentional. The rationale for rejection is documented.
 The rationale is the most important part of a resolution. Future-you (or a teammate) will need to understand *why* a decision was made, not just *what* was decided.
 
 Good rationale:
+
 - "Treatment was decomposed into a saga because the multi-step process spans two aggregates and requires compensation on failure"
 - "Rejected: the 4-aggregate context is intentional because all four aggregates participate in a single transaction boundary"
 
 Bad rationale:
+
 - "Fixed"
 - "Accepted the recommendation"
 - "It seemed right"

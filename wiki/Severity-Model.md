@@ -9,11 +9,13 @@ SDD uses a two-level severity model for gap classification. Severity determines 
 The specification has a structural deficiency that will cause ambiguity or failure during implementation. Must be resolved before the model is implementation-ready.
 
 **Characteristics:**
+
 - Binary -- the element is missing or malformed
 - Blocks implementation if left unresolved
 - Cannot be deferred to a later pass without risk
 
 **Common ERROR gaps:**
+
 - Aggregate with zero invariants (SG-01)
 - Command with no corresponding domain event (SG-02)
 - Missing domain concept referenced in requirements (DG-01)
@@ -23,11 +25,13 @@ The specification has a structural deficiency that will cause ambiguity or failu
 The specification has a pattern that may cause problems or violates a known heuristic. Should be investigated and either resolved or documented as intentional.
 
 **Characteristics:**
+
 - May be a valid design choice in context
 - Can sometimes be deferred to the next pass
 - Requires investigation and documented rationale
 
 **Common WARNING gaps:**
+
 - Bounded context with no declared relationships (SG-03)
 - Aggregate exceeding command density threshold (HG-01)
 - Same term used with different definitions across contexts (LG-01)

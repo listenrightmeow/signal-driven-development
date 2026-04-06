@@ -55,6 +55,7 @@ SDD does not replace EventStorming, CQRS, or any existing DDD technique. It addr
 > **DDD has never had a definition of done for domain modeling.**
 
 SDD provides:
+
 1. **A structured diagnostic process** (gap reports) that replaces intuition with measurement
 2. **A convergence model** that provides a measurable endpoint (zero unresolved gaps)
 3. **A solo-practitioner path** that doesn't require workshops or teams

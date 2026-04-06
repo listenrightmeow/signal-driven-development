@@ -9,6 +9,7 @@ The SDD website uses a mix of static Astro components and interactive Preact isl
 The flagship interactive component. Simulates the gap resolution process using real data from the veterinary clinic example.
 
 **Features:**
+
 - Tabs for Pass 1, 2, and 3
 - Left panel: gap list with selection
 - Right panel: gap detail (rule, analysis, recommendation)
@@ -17,6 +18,7 @@ The flagship interactive component. Simulates the gap resolution process using r
 - Final convergence state when all gaps resolved
 
 **State management:** Uses a pure state machine (`walkthrough-state.ts`) with functions:
+
 - `createWalkthroughState()` -- Initialize state
 - `resolveGap()` -- Mark a gap as resolved
 - `selectGap()` -- Select a gap for detail view
@@ -26,6 +28,7 @@ The flagship interactive component. Simulates the gap resolution process using r
 - `isConverged()` -- Check if final pass has zero gaps
 
 **Accessibility:**
+
 - ARIA labels on all interactive elements
 - Live regions for state change announcements
 - Full keyboard navigation support
@@ -37,6 +40,7 @@ The flagship interactive component. Simulates the gap resolution process using r
 Interactive timeline of DDD influences from 2003 to 2026.
 
 **Features:**
+
 - Click to select nodes and view connections
 - Filter by authority (Evans, Vernon, Brandolini, etc.)
 - Track lines showing author lineage
@@ -58,6 +62,7 @@ Site navigation component. Clean, semantic HTML with links to all pages.
 ### StatsBar (`StatsBar.astro`)
 
 Displays key methodology statistics:
+
 - Domains analyzed
 - Total gaps identified and resolved
 - Convergence rate

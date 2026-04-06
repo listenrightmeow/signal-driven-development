@@ -20,6 +20,7 @@ The template is organized into these sections:
 ### 2. Bounded Contexts
 
 Each context declares:
+
 - **Responsibility** -- one sentence describing what this context owns
 - **Upstream dependencies** -- which contexts this context consumes from
 - **Downstream consumers** -- which contexts consume from this context
@@ -45,6 +46,7 @@ A summary table tracking counts across passes:
 ### 4. Aggregates
 
 Each aggregate defines:
+
 - **Identity** -- how instances are uniquely identified
 - **Responsibility** -- what consistency boundary this aggregate protects
 - **Commands** -- what it does, preconditions, emitted events
@@ -54,6 +56,7 @@ Each aggregate defines:
 ### 5. Domain Services
 
 Services that coordinate domain logic across aggregates:
+
 - **Responsibility** -- what logic it coordinates
 - **Consumes** -- events or commands that trigger it
 - **Produces** -- events or commands it emits
@@ -61,6 +64,7 @@ Services that coordinate domain logic across aggregates:
 ### 6. Policies
 
 Single-reaction domain rules:
+
 - **Trigger** -- the event that activates the policy
 - **Action** -- the command issued in response
 - **Rule** -- the business rule governing when the reaction occurs
@@ -68,6 +72,7 @@ Single-reaction domain rules:
 ### 7. Sagas
 
 Multi-step coordinated processes:
+
 - **Trigger** -- the initiating event
 - **Steps** -- ordered sequence of commands and compensating actions
 - **Completion** -- the event emitted when the saga completes
@@ -76,6 +81,7 @@ Multi-step coordinated processes:
 ### 8. Projections
 
 Read models built from events:
+
 - **Purpose** -- what read model this projection builds
 - **Consumes** -- which events feed it
 - **Serves** -- which queries or views it supports
@@ -109,5 +115,6 @@ Domain-specific design decisions that apply across the specification.
 ## Invariant Naming Convention
 
 Invariant IDs follow the pattern `INV-{AGGREGATE_ABBREVIATION}-{NUMBER}`:
+
 - `INV-AP-01` -- First invariant on the Appointment aggregate
 - `INV-TR-03` -- Third invariant on the Treatment aggregate

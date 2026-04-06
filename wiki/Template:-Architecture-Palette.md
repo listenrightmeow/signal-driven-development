@@ -56,6 +56,7 @@ Command → Aggregate → Domain Event → Policy/Saga → Command
 ### Observations
 
 Note any visual patterns the palette reveals:
+
 - Imbalanced contexts (one context with 80% of the building blocks)
 - Isolated aggregates (no inbound commands or outbound events)
 - Missing reactive chains (events with no consumers)
@@ -64,6 +65,7 @@ Note any visual patterns the palette reveals:
 ## Implementation
 
 Use any diagramming tool:
+
 - **Mermaid** (recommended -- renders in GitHub, can be embedded in markdown)
 - Whiteboard or physical drawing
 - Excalidraw, draw.io, or other diagramming software

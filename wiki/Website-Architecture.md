@@ -63,6 +63,7 @@ export default defineConfig({
 ```
 
 Key decisions:
+
 - **Static output** -- no SSR, no serverless functions
 - **Preact integration** -- enables island architecture for interactive components
 - **Sitemap integration** -- auto-generates `sitemap.xml` for SEO
@@ -72,10 +73,12 @@ Key decisions:
 Astro's island architecture means JavaScript only ships for components that need interactivity. The majority of the site is static HTML/CSS with zero JavaScript.
 
 **JS-required islands:**
+
 - `Walkthrough.tsx` -- Interactive gap resolution simulation
 - `LineageTimeline.tsx` -- Interactive DDD lineage visualization
 
 **Static components (zero JS):**
+
 - `Hero.astro`, `Nav.astro`, `StatsBar.astro`, `ConvergenceViz.astro`
 
 ## Data Flow
@@ -87,6 +90,7 @@ JSON data files → Astro pages → Preact islands
 ```
 
 Data files in `src/data/`:
+
 - `walkthrough.json` -- Veterinary clinic gap data for the interactive walkthrough
 - `lineage.json` -- DDD lineage timeline entries with influences
 - `thresholds.json` -- Heuristic threshold values

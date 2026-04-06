@@ -22,6 +22,7 @@ Lint → Test → Build
 #### Stage 2: Test (depends on lint)
 
 Sequential test execution:
+
 1. `npm run test:unit` -- State machine logic, timeline filtering
 2. `npm run test:integration` -- Component rendering, click handlers
 3. `npm run test:a11y` -- WCAG 2.1 AA compliance via axe-core

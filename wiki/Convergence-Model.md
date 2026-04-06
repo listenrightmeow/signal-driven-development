@@ -66,6 +66,7 @@ The domain specification is the only artifact that changes between passes. Gap r
 The first pass is about getting everything named and placed. Do not aim for perfection. Write the domain specification for your bounded contexts, aggregates, commands, events, and invariants. The gap report will find what you missed.
 
 **Typical findings:**
+
 - Aggregates with zero invariants (data containers, not consistency boundaries)
 - Commands without corresponding events
 - Missing cross-context relationships
@@ -76,6 +77,7 @@ The first pass is about getting everything named and placed. Do not aim for perf
 The second pass is where real architectural decisions get made. The gap report from Pass 1 has surfaced structural debt, heuristic violations, and language ambiguities. Now you resolve them.
 
 **Typical decisions:**
+
 - Boundary redraws between contexts
 - Aggregate decomposition (splitting overloaded aggregates)
 - Saga introduction for multi-step processes
@@ -86,6 +88,7 @@ The second pass is where real architectural decisions get made. The gap report f
 The third pass confirms that all gaps have been resolved. If zero gaps remain, the model is implementation-ready. If 1--3 gaps remain, they are typically decision gaps representing conscious tradeoffs.
 
 **Typical outcomes:**
+
 - Zero gaps -- model converged
 - 1--3 residual warnings documented as intentional
 - Architecture palette created as visual verification
@@ -97,6 +100,7 @@ The convergence invariant is the single most important rule in SDD:
 > **Gap count must decrease across passes. If Pass N+1 identifies more gaps than Pass N resolved, the specification is diverging.**
 
 Common causes of divergence:
+
 - A boundary change that created new cross-context dependencies
 - An aggregate decomposition that generated more questions than it answered
 - A scope expansion disguised as a gap resolution
@@ -106,6 +110,7 @@ When divergence occurs, revert the resolution that caused it and investigate the
 ## When Is a Model Done?
 
 A model is done when the gap report returns zero unresolved gaps. This does not mean:
+
 - The model is perfect
 - No future changes are needed
 - Every possible concern has been addressed

@@ -52,16 +52,19 @@ Below-the-fold CSS loads via preload pattern:
 **Strategy:** Explicit FOUT (Flash of Unstyled Text). System fonts render immediately. Web fonts swap in when available.
 
 **Fonts:**
+
 - **Outfit** (body) -- weights 300, 400, 500, 600, 700 as separate files. Only 400 and 600 in critical path.
 - **JetBrains Mono** (code) -- weights 400 and 500 only.
 
 **Rules:**
+
 - `font-display: swap` on all `@font-face` declarations
 - Self-hosted, subset to Latin + Latin Extended (no Google Fonts CDN)
 - Fonts are **not** preloaded -- they load via CSS cascade after deferred stylesheet applies
 - `size-adjust`, `ascent-override`, `descent-override` to minimize CLS on swap
 
 **System fallback stacks:**
+
 - Body: `'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
 - Code: `'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace`
 
@@ -74,6 +77,7 @@ Below-the-fold CSS loads via preload pattern:
 3. **LQIP (Low-Quality Image Placeholder)** -- 32px wide, JPEG quality 20, ~200-500 bytes
 
 **Progressive loading flow:**
+
 1. LQIP renders immediately with `filter: blur(10px)`
 2. Full-quality image loads in background
 3. When loaded, opacity fade (200ms) replaces placeholder

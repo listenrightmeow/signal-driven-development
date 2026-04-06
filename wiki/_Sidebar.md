@@ -2,7 +2,7 @@
 
 ---
 
-**Methodology**
+#### Methodology
 
 - [[Methodology Overview]]
 - [[Convergence Model]]
@@ -11,7 +11,7 @@
 - [[Severity Model]]
 - [[Glossary]]
 
-**Templates**
+#### Templates
 
 - [[Templates Overview]]
 - [[Template: Domain Specification]]
@@ -19,16 +19,16 @@
 - [[Template: Gap Resolution Log]]
 - [[Template: Architecture Palette]]
 
-**Examples**
+#### Examples
 
 - [[Worked Example: Veterinary Clinic]]
 
-**Getting Started**
+#### Getting Started
 
 - [[Quick Start Guide]]
 - [[Scaffolding Script]]
 
-**Website**
+#### Website
 
 - [[Website Architecture]]
 - [[Website Components]]
@@ -36,14 +36,14 @@
 - [[Website Design System]]
 - [[Website SEO]]
 
-**Development**
+#### Development
 
 - [[CI/CD Pipeline]]
 - [[Testing Strategy]]
 - [[Contributing]]
 - [[Changelog]]
 
-**Community**
+#### Community
 
 - [[Lineage]]
 - [[Blog Series]]

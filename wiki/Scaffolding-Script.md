@@ -55,6 +55,7 @@ Next: Open e-commerce-platform/pass-1/domain-specification.md and start writing 
 ## Error Handling
 
 The script will exit with an error if:
+
 - No domain name is provided
 - The target directory already exists (prevents accidental overwrites)
 

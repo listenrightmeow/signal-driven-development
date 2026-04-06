@@ -17,6 +17,7 @@ Configuration is in `site/vitest.config.ts`.
 ### Walkthrough State Machine (`tests/unit/walkthrough-state.test.ts`)
 
 Tests the pure state machine functions:
+
 - State initialization from walkthrough data
 - Gap resolution (marking gaps as resolved)
 - Gap selection (selecting a gap for detail view)
@@ -27,6 +28,7 @@ Tests the pure state machine functions:
 ### Lineage State (`tests/unit/lineage-state.test.ts`)
 
 Tests timeline filtering and selection logic:
+
 - Node selection and deselection
 - Authority filtering
 - Connection highlighting
@@ -36,6 +38,7 @@ Tests timeline filtering and selection logic:
 ### Walkthrough Component (`tests/integration/walkthrough.test.tsx`)
 
 Tests the full Walkthrough Preact component:
+
 - Component renders with correct initial state
 - Click handlers fire and update state
 - Gap list displays correct items per pass
@@ -51,6 +54,7 @@ Uses `@testing-library/preact` for component rendering and interaction.
 ### Layout Audit (`tests/a11y/layout.test.ts`)
 
 Runs axe-core against rendered page layouts to verify WCAG 2.1 AA compliance:
+
 - Color contrast ratios
 - ARIA attribute correctness
 - Heading hierarchy
