@@ -28,23 +28,10 @@
 - [[Quick Start Guide]]
 - [[Scaffolding Script]]
 
-#### Website
-
-- [[Website Architecture]]
-- [[Website Components]]
-- [[Website Performance]]
-- [[Website Design System]]
-- [[Website SEO]]
-
-#### Development
-
-- [[CI/CD Pipeline]]
-- [[Testing Strategy]]
-- [[Contributing]]
-- [[Changelog]]
-
 #### Community
 
+- [[Contributing]]
+- [[Changelog]]
 - [[Lineage]]
 - [[Blog Series]]
 - [[FAQ]]
